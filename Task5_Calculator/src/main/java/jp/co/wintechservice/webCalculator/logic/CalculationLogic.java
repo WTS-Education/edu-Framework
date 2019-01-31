@@ -1,23 +1,22 @@
 package jp.co.wintechservice.webCalculator.logic;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import jp.co.wintechservice.webCalculator.beans.CalcBean;
+import jp.co.wintechservice.webCalculator.form.CalcForm;
 
 /**
  * Servlet implementation class CalclatorLogic
  */
 public class CalculationLogic extends HttpServlet {
     private static final long serialVersionUID = 1L;
-
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -25,20 +24,24 @@ public class CalculationLogic extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
-    public static void calc(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void calc(@ModelAttribute("calcForm") CalcForm calcForm,
+            @ModelAttribute("calcBean") CalcBean calcBean) {
+
         // TODO Auto-generated method stub
 
-        HttpSession session = request.getSession();
-        CalcBean calc = (CalcBean)session.getAttribute("calc");
+        CalcForm form = new CalcForm();
+        CalcBean calc = new CalcBean();
+
+        boolean numExists;
+        boolean operatorExists;
+        boolean delExists;
+        boolean plusAlphaExists;
 
         //初回calcインスタンス作成、初期値0セット
-        if (calc == null){
-            calc = new CalcBean();
-            session.setAttribute("calc",calc);
+        if (calc.getOutput().equals(null)){
             calc.setOutput("0");
             calc.setInput("0");
             calc.setOperator("");
@@ -52,8 +55,8 @@ public class CalculationLogic extends HttpServlet {
 
 
         //num(数字、小数点)が押下された場合
-        if (request.getParameterMap().containsKey("num")) {
-            String num = request.getParameter("num");
+        if (!form.getNum().equals(null)) {
+            String num = form.getNum();
             //numが小数点かつoutputが整数
             if (num.equals(".") && !calc.getOutput().contains(".")) {
                 calc.setOutput(calc.getOutput() + num);
@@ -67,22 +70,22 @@ public class CalculationLogic extends HttpServlet {
                     calc.setOutput(killingFirstZero.toString());
                 } else {
                   //直前に演算子を押下していた場合
-                    if (session.getAttribute("operator") != null) {
+                    if (operatorExists = true) {
                         calc.setOutput(num);
-                        session.setAttribute("operator", null);
+                        operatorExists = false;
                         } else {
                           //押下された数字を連結して出力
                             calc.setOutput(calc.getOutput() + num);
                         }
                 }
             }
-            session.setAttribute("num", num);
+            numExists = true;
         }
         //operatorが押下された場合
-        else if (request.getParameterMap().containsKey("operator")){
-            String operator = request.getParameter("operator");
+        else if (!form.getOperator().equals(null)){
+            String operator = form.getOperator();
             //直前にoperator(イコールを除く)を押下していた場合
-            if (session.getAttribute("operator") != null && !operator.equals("=")) {
+            if (operatorExists = true && !operator.equals("=")) {
                 //計算せずにoutputの値を控えておくだけ
                 calc.setInput(calc.getOutput());
                 //新しく押下されたオペレータをセット
@@ -123,10 +126,10 @@ public class CalculationLogic extends HttpServlet {
                     //前回の演算子
                     String previousOperator = calc.getOperator();
                     //直前に数字を押下している場合
-                    if (session.getAttribute("num") != null) {
+                    if (numExists = true) {
                         //前回の計算結果を控えておく
                         calc.setInput(previousResult);
-                        session.setAttribute("num", null);
+                        numExists = false;
                         operator = previousOperator;
                     }
                     //直前にイコールを押下していた場合
@@ -142,7 +145,7 @@ public class CalculationLogic extends HttpServlet {
                 }
                 //operatorを控えておく
                 calc.setOperator(operator);
-                session.setAttribute("operator", operator);
+                operatorExists = true;
             }
         }
 
@@ -152,8 +155,8 @@ public class CalculationLogic extends HttpServlet {
 
 
         //plusAlphaが押下された場合(±、√、x²、1/x)
-        if (request.getParameterMap().containsKey("plusAlpha")) {
-            String plusAlpha = request.getParameter("plusAlpha");
+        if (!form.getPlusAlpha().equals(null)) {
+            String plusAlpha = form.getPlusAlpha();
             calc.setX(calc.getOutput());
             if (plusAlpha.equals("±")) {
                 calc.setOutput(String.valueOf(Integer.parseInt(calc.getOutput()) * -1));
@@ -212,8 +215,8 @@ public class CalculationLogic extends HttpServlet {
 
 
        //CE,C,戻 が押下された場合
-         if (request.getParameterMap().containsKey("del")) {
-             String del = request.getParameter("del");
+         if (!form.getDel().equals(null)) {
+             String del = form.getDel();
              //CE(入力中の文字を削除)
              if (del.equals("CE")) {
                  calc.setOutput("0");
@@ -224,8 +227,8 @@ public class CalculationLogic extends HttpServlet {
                  calc.setInput("0");
                  calc.setOperator("");
                  calc.setExpression("");
-                 session.setAttribute("operator", null);
-                 session.setAttribute("plusAlpha", null);
+                 operatorExists = false;
+                 plusAlphaExists = false;
              }
              //◀(バックスペース)
              else if (del.equals("◀")){

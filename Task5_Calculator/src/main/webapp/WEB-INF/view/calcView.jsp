@@ -13,18 +13,20 @@
 <body>
     <%= new java.util.Date() %>
 
-<jsp:useBean id="calc" class="jp.co.wintechservice.webCalculator.beans.CalcBean" scope="session"></jsp:useBean>
+<%-- <jsp:useBean id="calc" class="jp.co.wintechservice.webCalculator.beans.CalcBean" scope="session"></jsp:useBean> --%>
 
 <fieldset style="width:450px"><br>
 	<form:form modelAttribute="Calculator"  method="POST">
 
 	<table>
 	<tr style="background:#CEE3F6">
-		<td colspan="4" style="width:400px; height:50px; font-size:20px;" align="right">${calcBean.expression}</td>
+		<td colspan="4" style="width:400px; height:50px; font-size:20px;" align="right">${calcForm.operator}</td>
+		<td colspan="4" style="width:400px; height:50px; font-size:20px;" align="right">${calcBean.output}</td>
+
 	</tr>
 
 	<tr style="background:#A9F5D0">
-		<td colspan="4" style="width:400px; height:50px; font-size:50px;" align="right">${calcBean.output}</td>
+		<td colspan="4" style="width:400px; height:50px; font-size:50px;" align="right">${calcForm.num}</td>
 	</tr>
 
 	<tr>

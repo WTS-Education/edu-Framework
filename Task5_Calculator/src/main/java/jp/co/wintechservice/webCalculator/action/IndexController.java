@@ -1,17 +1,18 @@
 package jp.co.wintechservice.webCalculator.action;
 
-import java.io.IOException;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import jp.co.wintechservice.webCalculator.beans.CalcBean;
+import jp.co.wintechservice.webCalculator.form.CalcForm;
 import jp.co.wintechservice.webCalculator.logic.CalculationLogic;
+
+//import jp.co.wintechservice.webCalculator.logic.CalculationLogic;
 
 
 /**
@@ -22,6 +23,8 @@ import jp.co.wintechservice.webCalculator.logic.CalculationLogic;
 @Controller
 public class IndexController {
 
+    @Autowired
+    CalculationLogic calculate;
     /**
      * トップページのコントローラー
      *
@@ -29,17 +32,19 @@ public class IndexController {
      * @return
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String getCalcView(Model model, HttpServletRequest request, HttpServletResponse response) throws ServletException,IOException {
+    public String getCalcView() {
         return "calcView";
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String postCalcView(Model model, HttpServletRequest request, HttpServletResponse response) throws ServletException,IOException {
+    public String postCalcView(@ModelAttribute("calcForm") CalcForm calcForm,
+            @ModelAttribute("calcBean") CalcBean calcBean, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "calcView";
+        }
 
         //CalculationLogicに計算してもらう
-        CalculationLogic.calc(request,response);
-//        CalcBean calcBean = new CalcBean();
-//        model.addAttribute("calcBean", calcBean);
+        calculate.calc(calcForm, calcBean);
 
         return "calcView";
     }

@@ -11,9 +11,6 @@
 	<context:component-scan
 		base-package="jp.co.wintechservice.webCalculator.action" />
 
-	<bean id="IndexController" class="jp.co.wintechservice.webCalculator.action.IndexController"></bean>
-	<bean id="CalculationLogic" class="jp.co.wintechservice.webCalculator.logic.CalculationLogic">
-	</bean>
 
 <!-- 	<bean id="calcBean" class="jp.co.wintechservice.webCalculator.beans.CalcBean" ></bean> -->
 <!-- 	<bean id="calculationLogic" class="jp.co.wintechservice.webCalculator.logic.CalculationLogic" ></bean> -->

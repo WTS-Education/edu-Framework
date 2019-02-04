@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import jp.co.wintechservice.webCalculator.beans.CalcBean;
@@ -27,32 +29,19 @@ public class CalculationLogic extends HttpServlet {
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
-    public void calc(@ModelAttribute("calcForm") CalcForm calcForm,
-            @ModelAttribute("calcBean") CalcBean calcBean) {
+    public void calc(@ModelAttribute("calcForm") CalcForm calcForm) {
 
         // TODO Auto-generated method stub
 
-        CalcForm form = new CalcForm();
-        CalcBean calc = new CalcBean();
+        CalcForm form = calcForm;
+
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring/application-config.xml");
+        CalcBean calc = (CalcBean)context.getBean("calcBean");
 
         boolean numExists;
         boolean operatorExists;
         boolean delExists;
         boolean plusAlphaExists;
-
-        //初回calcインスタンス作成、初期値0セット
-        if (calc.getOutput().equals(null)){
-            calc.setOutput("0");
-            calc.setInput("0");
-            calc.setOperator("");
-            calc.setExpression("");
-        }
-
-        String test1 = calc.getInput();
-        String test2 = calc.getOutput();
-        String test3 = calc.getOperator();
-        String test4 = calc.getExpression();
-
 
         //num(数字、小数点)が押下された場合
         if (!form.getNum().equals(null)) {
@@ -149,10 +138,6 @@ public class CalculationLogic extends HttpServlet {
             }
         }
 
-        String a = calc.getInput();
-        String b = calc.getOutput();
-        String hoge = test1 + test2 + test3 + test4 + a + b;
-
 
         //plusAlphaが押下された場合(±、√、x²、1/x)
         if (!form.getPlusAlpha().equals(null)) {
@@ -211,7 +196,6 @@ public class CalculationLogic extends HttpServlet {
 
                     }
                 }
-
 
 
        //CE,C,戻 が押下された場合

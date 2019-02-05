@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import jp.co.wintechservice.webCalculator.beans.CalcBean;
@@ -27,11 +30,23 @@ public class CalculationLogic extends HttpServlet {
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
-    public void calc(@ModelAttribute("calcForm") CalcForm calcForm, CalcBean calc) {
+    public void calc(Model model, @ModelAttribute("calcForm") CalcForm calcForm) {
 
         // TODO Auto-generated method stub
 
+        ApplicationContext beanContext = new ClassPathXmlApplicationContext("spring/application-config.xml");
+        CalcBean calc = (CalcBean)beanContext.getBean("calcBean");
+
         CalcForm form = calcForm;
+
+        if (!model.containsAttribute("calcBean")) {
+            model.addAttribute("calcBean", calc);
+            calc.setOutput("0");
+            calc.setInput("0");
+            calc.setOperator("");
+            calc.setExpression("");
+            calc.setX("");
+        }
 
         boolean numExists;
         boolean operatorExists;

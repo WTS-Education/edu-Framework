@@ -10,11 +10,6 @@
             base-package="org.springframework.samples.service"/>  -->
 
     <bean id="calcBean" class="jp.co.wintechservice.webCalculator.beans.CalcBean" >
-    	<property name="output" value="0"></property>
-    	<property name="input" value="0"></property>
-    	<property name="operator" value=""></property>
-    	<property name="expression" value=""></property>
-    	<property name="x" value=""></property>
     </bean>
 
     <bean id="calcLogic" class="jp.co.wintechservice.webCalculator.logic.CalculationLogic">

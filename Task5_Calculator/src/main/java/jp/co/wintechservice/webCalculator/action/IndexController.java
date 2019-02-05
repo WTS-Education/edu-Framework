@@ -48,12 +48,8 @@ public class IndexController {
         ApplicationContext logicContext = new ClassPathXmlApplicationContext("spring/application-config.xml");
         CalculationLogic calcLogic = (CalculationLogic)logicContext.getBean("calcLogic");
 
-        ApplicationContext beanContext = new ClassPathXmlApplicationContext("spring/application-config.xml");
-        CalcBean calc = (CalcBean)beanContext.getBean("calcBean");
-
-        model.addAttribute("calcBean", calc);
         //CalculationLogicに計算してもらう
-        calcLogic.calc(calcForm, calc);
+        calcLogic.calc(model, calcForm);
 
         return "calcView";
     }

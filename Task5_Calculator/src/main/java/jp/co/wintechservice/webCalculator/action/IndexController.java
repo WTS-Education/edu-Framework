@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import jp.co.wintechservice.webCalculator.beans.CalcBean;
 import jp.co.wintechservice.webCalculator.form.CalcForm;
 import jp.co.wintechservice.webCalculator.logic.CalculationLogic;
 
@@ -23,6 +24,8 @@ import jp.co.wintechservice.webCalculator.logic.CalculationLogic;
 
 @Controller
 public class IndexController {
+
+    CalcBean calcBean;
 
     /**
      * トップページのコントローラー
@@ -42,11 +45,15 @@ public class IndexController {
             return "calcView";
         }
 
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring/application-config.xml");
-        CalculationLogic calcLogic = (CalculationLogic)context.getBean("calcLogic");
+        ApplicationContext logicContext = new ClassPathXmlApplicationContext("spring/application-config.xml");
+        CalculationLogic calcLogic = (CalculationLogic)logicContext.getBean("calcLogic");
 
+        ApplicationContext beanContext = new ClassPathXmlApplicationContext("spring/application-config.xml");
+        CalcBean calc = (CalcBean)beanContext.getBean("calcBean");
+
+        model.addAttribute("calcBean", calc);
         //CalculationLogicに計算してもらう
-        calcLogic.calc(calcForm);
+        calcLogic.calc(calcForm, calc);
 
         return "calcView";
     }

@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import jp.co.wintechservice.webCalculator.beans.CalcBean;
@@ -29,14 +27,11 @@ public class CalculationLogic extends HttpServlet {
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
-    public void calc(@ModelAttribute("calcForm") CalcForm calcForm) {
+    public void calc(@ModelAttribute("calcForm") CalcForm calcForm, CalcBean calc) {
 
         // TODO Auto-generated method stub
 
         CalcForm form = calcForm;
-
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring/application-config.xml");
-        CalcBean calc = (CalcBean)context.getBean("calcBean");
 
         boolean numExists;
         boolean operatorExists;
@@ -44,7 +39,7 @@ public class CalculationLogic extends HttpServlet {
         boolean plusAlphaExists;
 
         //num(数字、小数点)が押下された場合
-        if (!form.getNum().equals(null)) {
+        if (form.getNum() != null) {
             String num = form.getNum();
             //numが小数点かつoutputが整数
             if (num.equals(".") && !calc.getOutput().contains(".")) {
@@ -71,7 +66,7 @@ public class CalculationLogic extends HttpServlet {
             numExists = true;
         }
         //operatorが押下された場合
-        else if (!form.getOperator().equals(null)){
+        else if (form.getOperator() != null){
             String operator = form.getOperator();
             //直前にoperator(イコールを除く)を押下していた場合
             if (operatorExists = true && !operator.equals("=")) {
@@ -140,7 +135,7 @@ public class CalculationLogic extends HttpServlet {
 
 
         //plusAlphaが押下された場合(±、√、x²、1/x)
-        if (!form.getPlusAlpha().equals(null)) {
+        else if (form.getPlusAlpha() != null) {
             String plusAlpha = form.getPlusAlpha();
             calc.setX(calc.getOutput());
             if (plusAlpha.equals("±")) {
@@ -199,7 +194,7 @@ public class CalculationLogic extends HttpServlet {
 
 
        //CE,C,戻 が押下された場合
-         if (!form.getDel().equals(null)) {
+        else  if (form.getDel() != null) {
              String del = form.getDel();
              //CE(入力中の文字を削除)
              if (del.equals("CE")) {

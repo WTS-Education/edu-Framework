@@ -19,7 +19,7 @@
 
 	<table>
 	<tr style="background:#CEE3F6">
-		<td colspan="4" style="width:400px; height:50px; font-size:20px;" align="right">${calcForm.expression}</td>
+		<td colspan="4" style="width:400px; height:50px; font-size:20px;" align="right">${calcBean.expression}</td>
 
 	</tr>
 

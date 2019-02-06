@@ -48,6 +48,10 @@ public class CalculationLogic extends HttpServlet {
             calc.setX("");
         }
 
+        String out = calc.getOutput();
+        String  in = calc.getInput();
+        String ope = calc.getOperator();
+
         boolean numExists;
         boolean operatorExists;
         boolean delExists;

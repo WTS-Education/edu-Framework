@@ -1,13 +1,17 @@
 package jp.co.wintechservice.webCalculator.beans;
 
+import java.io.Serializable;
+
+
 /**
  * 結果レジスタ(ボックスに表示されるオペランドを格納),
  * X・Yレジスタ(結果レジスタの値をコピーして格納、次の計算に備えるため)
  * @author KohariJunichiro
  */
+public class CalcBean implements Serializable{
 
-public class CalcBean {
 
+    private static final long serialVersionUID = 1L;
     /**
      * 画面に表示する値
      */

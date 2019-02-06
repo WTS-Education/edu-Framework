@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import jp.co.wintechservice.webCalculator.beans.CalcBean;
 import jp.co.wintechservice.webCalculator.form.CalcForm;
@@ -23,22 +24,21 @@ import jp.co.wintechservice.webCalculator.logic.CalculationLogic;
  */
 
 @Controller
+@RequestMapping("/")
+@SessionAttributes(types = CalcBean.class)
 public class IndexController {
-
-    CalcBean calcBean;
-
     /**
      * トップページのコントローラー
      *
      * @param model
      * @return
      */
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public String getCalcView() {
         return "calcView";
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public String postCalcView(Model model, @ModelAttribute("calcForm") CalcForm calcForm,
              BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {

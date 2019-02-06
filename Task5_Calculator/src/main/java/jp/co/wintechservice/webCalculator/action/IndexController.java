@@ -1,8 +1,7 @@
 package jp.co.wintechservice.webCalculator.action;
 
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,8 +24,16 @@ import jp.co.wintechservice.webCalculator.logic.CalculationLogic;
 
 @Controller
 @RequestMapping("/")
-@SessionAttributes(types = CalcBean.class)
+@SessionAttributes(value = "calcBean")
 public class IndexController {
+
+    @Autowired
+    CalculationLogic calcLogic;
+
+    @ModelAttribute("calcBean")
+    CalcBean calcBean() {
+        return new CalcBean();
+    }
     /**
      * トップページのコントローラー
      *
@@ -45,8 +52,6 @@ public class IndexController {
             return "calcView";
         }
 
-        ApplicationContext logicContext = new ClassPathXmlApplicationContext("spring/application-config.xml");
-        CalculationLogic calcLogic = (CalculationLogic)logicContext.getBean("calcLogic");
 
         //CalculationLogicに計算してもらう
         calcLogic.calc(model, calcForm);

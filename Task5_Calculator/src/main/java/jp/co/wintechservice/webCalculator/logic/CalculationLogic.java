@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
@@ -18,8 +18,12 @@ import jp.co.wintechservice.webCalculator.form.CalcForm;
 /**
  * Servlet implementation class CalclatorLogic
  */
+@Component
 public class CalculationLogic extends HttpServlet {
     private static final long serialVersionUID = 1L;
+
+    @Autowired
+    CalcBean calc;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -34,8 +38,6 @@ public class CalculationLogic extends HttpServlet {
 
         // TODO Auto-generated method stub
 
-        ApplicationContext beanContext = new ClassPathXmlApplicationContext("spring/application-config.xml");
-        CalcBean calc = (CalcBean)beanContext.getBean("calcBean");
 
         CalcForm form = calcForm;
 

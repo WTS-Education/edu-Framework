@@ -34,12 +34,11 @@ public class CalculationLogic extends HttpServlet {
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
-    public void calc(Model model, @ModelAttribute("calcForm") CalcForm calcForm) {
-
+    public void calc(Model model, @ModelAttribute("calcForm") CalcForm calcForm, CalcBean calcBean) {
         // TODO Auto-generated method stub
 
-
         CalcForm form = calcForm;
+        CalcBean calc = calcBean;
 
         if (!model.containsAttribute("calcBean")) {
             model.addAttribute("calcBean", calc);
@@ -53,6 +52,10 @@ public class CalculationLogic extends HttpServlet {
         String out = calc.getOutput();
         String  in = calc.getInput();
         String ope = calc.getOperator();
+        System.out.println(out);
+        System.out.println(in);
+        System.out.println(ope);
+
 
         boolean numExists;
         boolean operatorExists;

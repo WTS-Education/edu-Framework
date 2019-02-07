@@ -14,13 +14,13 @@
          <context:component-scan
             base-package="org.springframework.samples.service"/>  -->
 
-<!--     <bean id="calcBean" class="jp.co.wintechservice.webCalculator.beans.CalcBean" scope="session"> -->
-<!--     </bean> -->
+    <bean id="calcBean" class="jp.co.wintechservice.webCalculator.beans.CalcBean">
+    </bean>
 
-<!--     <bean id="calcLogic" class="jp.co.wintechservice.webCalculator.logic.CalculationLogic"> -->
-<!--     </bean> -->
+    <bean id="calcLogic" class="jp.co.wintechservice.webCalculator.logic.CalculationLogic">
+    </bean>
 
 	<context:annotation-config />
-	<context:component-scan base-package="jp.co.wintechservice.webCalculator" />
+<!-- 	<context:component-scan base-package="jp.co.wintechservice.webCalculator" /> -->
 
 </beans>

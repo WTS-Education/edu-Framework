@@ -20,11 +20,6 @@
 	<table>
 	<tr style="background:#CEE3F6">
 		<td colspan="4" style="width:400px; height:50px; font-size:20px;" align="right">式${calcBean.expression}</td>
-		<td colspan="4" style="width:400px; height:50px; font-size:20px;" align="right">input${calcBean.input}</td>
-		<td colspan="4" style="width:400px; height:50px; font-size:20px;" align="right">演${calcBean.operator}</td>
-		<td colspan="4" style="width:400px; height:50px; font-size:20px;" align="right">x${calcBean.x}</td>
-
-
 	</tr>
 
 	<tr style="background:#A9F5D0">

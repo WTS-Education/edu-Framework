@@ -2,17 +2,12 @@ package jp.co.wintechservice.webCalculator.beans;
 
 import java.io.Serializable;
 
-import org.springframework.stereotype.Component;
-import org.springframework.web.context.annotation.SessionScope;
-
 
 /**
  * 結果レジスタ(ボックスに表示されるオペランドを格納),
  * X・Yレジスタ(結果レジスタの値をコピーして格納、次の計算に備えるため)
  * @author KohariJunichiro
  */
-@SessionScope
-@Component
 public class CalcBean implements Serializable{
 
 

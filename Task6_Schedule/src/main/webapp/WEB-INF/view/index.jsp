@@ -14,7 +14,7 @@
 </head>
 <body>
 
-	<f:form modelAttribute="loginForm" action="top" method="post">
+	<f:form modelAttribute="loginForm" action="calender" method="post">
 		<div>
 			ログインID：<input type="text" name="loginId">
 		</div>

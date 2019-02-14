@@ -30,8 +30,8 @@
 		<tr>
 		<td>
 			<div class="btn">
-				<input type="submit" value="登録" class="config_btn"> <input
-					type="submit" value="戻る" class="return_btn">
+				<input type="submit" value="登録" class="config_btn">
+				 <input type="submit" value="戻る" class="return_btn">
 			</div>
 		</td>
 		</tr>

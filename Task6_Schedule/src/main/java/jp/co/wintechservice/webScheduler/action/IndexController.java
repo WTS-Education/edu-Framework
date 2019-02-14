@@ -10,7 +10,7 @@ import jp.co.wintechservice.webScheduler.form.LoginForm;
 
 /**
  * コントローラークラスの雛形
- *
+ * @author KohariJunichiro
  */
 @Controller
 public class IndexController {
@@ -21,9 +21,19 @@ public class IndexController {
      * @param model
      * @return
      */
-    @RequestMapping(value = "/top", method = RequestMethod.POST)
-    public String top(Model model) {
-        return "top";
+    @RequestMapping(value = "/calender", method = RequestMethod.POST)
+    public String calender(Model model) {
+       return "calender201902";
+    }
+
+    @RequestMapping(value = "/calender", params="previous", method = RequestMethod.POST)
+    public String calenderPrevious(Model model) {
+       return "calender201901";
+    }
+
+    @RequestMapping(value = "/calender", params="next", method = RequestMethod.POST)
+    public String calenderNext(Model model) {
+       return "calender201903";
     }
 
     @RequestMapping(value = "/scheduling", method = RequestMethod.POST)

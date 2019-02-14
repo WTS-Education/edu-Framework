@@ -13,7 +13,7 @@
 </head>
 <body>
 <div class="information" align="center">
-<f:form name="ok"  method="post" action="top">
+<f:form name="ok"  method="post" action="calender">
 インフォメーション<br>
 [スケジュール]の登録が完了しました<br>
 <input type="submit" value="ok">

@@ -1,5 +1,62 @@
 @charset "UTF-8";
 
+body {
+  background: #fffbf4;
+}
+
+table.calender_titleAndBtn {
+	background-color: #d7dee8;
+	height: 50px;
+	width: 100%;
+	align: center;
+}
+
+span.title_string {
+	font-size: 20px;
+	font-weight: bold;
+}
+
+div.btn{
+	text-align: right;
+}
+
+input.thisMonth_btn {
+	BACKGROUND-IMAGE: url(http://localhost:8081/Task6_Schedule/static/images/today_btn_bg.gif);
+	border: solid 0px;
+    background-repeat: no-repeat;
+    color: #363636;
+    font-size: 13px!important;
+    font-weight: bold;
+    height: 25px;
+    width: 50px;
+    cursor: pointer;
+}
+
+input.previous_btn {
+	BACKGROUND-IMAGE: url(http://localhost:8081/Task6_Schedule/static/images/arrow2_l.gif);
+	border: solid 0px;
+    background-repeat: no-repeat;
+    color: #363636;
+    font-size: 13px!important;
+    font-weight: bold;
+    height: 25px;
+    width:25px;
+    cursor: pointer;
+}
+
+input.next_btn {
+	BACKGROUND-IMAGE: url(http://localhost:8081/Task6_Schedule/static/images/arrow2_r.gif);
+	border: solid 0px;
+    background-repeat: no-repeat;
+    color: #363636;
+    font-size: 13px!important;
+    font-weight: bold;
+    height: 25px;
+    width:25px;
+    cursor: pointer;
+}
+
+
 table {
 	border-collapse: collapse;
 	border: 2px;
@@ -60,7 +117,7 @@ td.dayOfThisMonth1 {
 	white-space:nomal;
 }
 
-td.dayOfThisMonth2 {
+td.dayOfOtherMonth {
 	margin: 5px 5px 5px 5px !important;
 	padding: 5px 5px 5px 5px !important;
 	height: 45px;

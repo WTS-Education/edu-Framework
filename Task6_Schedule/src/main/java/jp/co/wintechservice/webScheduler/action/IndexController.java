@@ -26,6 +26,16 @@ public class IndexController {
         return "top";
     }
 
+    @RequestMapping(value = "/scheduling", method = RequestMethod.POST)
+    public String scheduling(Model model) {
+        return "scheduling";
+    }
+
+    @RequestMapping(value = "/schedulingIsOk", method = RequestMethod.POST)
+    public String schedulingIsOk(Model model) {
+        return "schedulingIsOk";
+    }
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model, @ModelAttribute("loginForm") LoginForm loginForm) {
         return "index";

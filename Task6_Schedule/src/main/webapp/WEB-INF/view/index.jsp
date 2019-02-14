@@ -16,11 +16,11 @@
 
 	<f:form modelAttribute="loginForm" action="top" method="post">
 		<div>
-			ログインID：<input type="text" id="loginId" name="loginId">
+			ログインID：<input type="text" name="loginId">
 		</div>
 		<br>
 		<div>
-			パスワード：<input type="text" id="password" name="password">
+			パスワード：<input type="text" name="password">
 		</div>
 		<br>
 		<div>

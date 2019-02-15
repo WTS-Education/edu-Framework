@@ -1,12 +1,18 @@
 package jp.co.wintechservice.webScheduler.action;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import jp.co.wintechservice.webScheduler.form.LoginForm;
+import jp.co.wintechservice.webScheduler.model.MUser;
+import jp.co.wintechservice.webScheduler.repository.UserRepository;
 
 /**
  * コントローラークラスの雛形
@@ -15,6 +21,9 @@ import jp.co.wintechservice.webScheduler.form.LoginForm;
 @Controller
 public class IndexController {
 
+    @Autowired
+    private UserRepository userRep;
+
     /**
      * トップページのコントローラー
      *
@@ -22,8 +31,19 @@ public class IndexController {
      * @return
      */
     @RequestMapping(value = "/calender", method = RequestMethod.POST)
-    public String calender(Model model) {
-       return "calender201902";
+    public String calender(Model model, @ModelAttribute("loginForm")LoginForm loginForm, BindingResult bindingResult ) {
+        if (bindingResult.hasErrors()) {
+            return "index";
+          }
+
+        List<MUser> userList = userRep.findAll();
+        for (MUser mUser : userList) {
+            if (mUser.getLoginId().equals(loginForm.getLoginId())) {
+                model.addAttribute("loginId", loginForm.getLoginId());
+                return "calender201902";
+            }
+        }
+        return "index";
     }
 
     @RequestMapping(value = "/calender", params="previous", method = RequestMethod.POST)

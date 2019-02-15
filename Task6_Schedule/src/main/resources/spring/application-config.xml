@@ -47,7 +47,6 @@ http://www.springframework.org/schema/context/spring-context.xsd">
 		<property name="removeAbandoned" value="true" />
 		<property name="initialSize" value="3" />
 		<property name="maxActive" value="30" />
-		<property name="validationQuery" value="select now()" />
 	</bean>
 
 	<context:property-placeholder
@@ -63,7 +62,7 @@ http://www.springframework.org/schema/context/spring-context.xsd">
 	</bean>
 
 	<jpa:repositories
-		base-package="jp.ssie.sample2.repository" />
+		base-package="jp.co.wintechservice.webScheduler.repository" />
 
 	<bean id="transactionManager"
 		class="org.springframework.orm.jpa.JpaTransactionManager">

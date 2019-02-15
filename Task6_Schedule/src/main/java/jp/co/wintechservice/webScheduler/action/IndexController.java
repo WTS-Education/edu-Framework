@@ -33,6 +33,7 @@ public class IndexController {
     @RequestMapping(value = "/calender", method = RequestMethod.POST)
     public String calender(Model model, @ModelAttribute("loginForm")LoginForm loginForm, BindingResult bindingResult ) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("loginErrorMessage", "ログインID,もしくはパスワードが間違っています");
             return "index";
           }
 

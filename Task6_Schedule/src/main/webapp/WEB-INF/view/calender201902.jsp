@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 
+<%@page import="java.util.Calendar"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -17,6 +18,17 @@
 </head>
 
 <body>
+
+<%
+int year, month, firstDayOfWeek;
+Calendar calendar = Calendar.getInstance();
+for (year = 2018; year <= 2019; year++) {
+    for (month = 1; month <= 12; month++) {
+        calendar.set(year, month, 1);
+        firstDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+    }
+}
+%>
 
 	<f:form name="calender" method="post" action="calender">
 		<table border="1" class="calender_titleAndBtn">
@@ -72,73 +84,73 @@
 				 alt="28日スケジュール登録"  name="submit" ></span>30</td>
 				<td class="dayOfOtherMonth"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
 				 alt="28日スケジュール登録"  name="submit" ></span>31</td>
-				<td class="dayOfOtherMonth1"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
+				<td class="dayOfThisMonth"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
 				 alt="28日スケジュール登録"  name="submit" ></span>1</td>
-				<td class="dayOfOtherMonth1"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
+				<td class="dayOfThisMonth"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
 				 alt="28日スケジュール登録"  name="submit" ></span>2</td>
 			</tr>
 
 			<tr align="right" valign="top">
-				<td class="dayOfOtherMonth1"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
+				<td class="dayOfThisMonth"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
 				 alt="28日スケジュール登録"  name="submit" ></span>3</td>
-				<td class="dayOfOtherMonth1"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
+				<td class="dayOfThisMonth"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
 				 alt="28日スケジュール登録"  name="submit" ></span>4</td>
-				<td class="dayOfOtherMonth1"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
+				<td class="dayOfThisMonth"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
 				 alt="28日スケジュール登録"  name="submit" ></span>5</td>
-				<td class="dayOfOtherMonth1"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
+				<td class="dayOfThisMonth"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
 				 alt="28日スケジュール登録"  name="submit" ></span>6</td>
-				<td class="dayOfOtherMonth1"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
+				<td class="dayOfThisMonth"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
 				 alt="28日スケジュール登録"  name="submit" ></span>7</td>
-				<td class="dayOfOtherMonth1"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
+				<td class="dayOfThisMonth"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
 				 alt="28日スケジュール登録"  name="submit" ></span>8</td>
-				<td class="dayOfOtherMonth1"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
+				<td class="dayOfThisMonth"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
 				 alt="28日スケジュール登録"  name="submit" ></span>9</td>
 			</tr>
 
 			<tr align="right" valign="top">
-				<td class="dayOfOtherMonth1"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
+				<td class="dayOfThisMonth"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
 				 alt="28日スケジュール登録"  name="submit" ></span>10</td>
-				<td class="dayOfOtherMonth1"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
+				<td class="dayOfThisMonth"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
 				 alt="28日スケジュール登録"  name="submit" ></span><div style="color:red">11</div><div style="color:red; font-size:12px;">建国記念の日</div></td>
-				<td class="dayOfOtherMonth1"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
+				<td class="dayOfThisMonth"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
 				 alt="28日スケジュール登録"  name="submit" ></span>12</td>
-				<td class="dayOfOtherMonth1"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
+				<td class="dayOfThisMonth"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
 				 alt="28日スケジュール登録"  name="submit" ></span>13</td>
-				<td class="dayOfOtherMonth1"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
+				<td class="dayOfThisMonth"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
 				 alt="28日スケジュール登録"  name="submit" ></span>14</td>
-				<td class="dayOfOtherMonth1"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
+				<td class="dayOfThisMonth"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
 				 alt="28日スケジュール登録"  name="submit" ></span>15</td>
-				<td class="dayOfOtherMonth1"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
+				<td class="dayOfThisMonth"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
 				 alt="28日スケジュール登録"  name="submit" ></span>16</td>
 			</tr>
 
 			<tr align="right" valign="top">
-				<td class="dayOfOtherMonth1"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
+				<td class="dayOfThisMonth"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
 				 alt="28日スケジュール登録"  name="submit" ></span>17</td>
-				<td class="dayOfOtherMonth1"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
+				<td class="dayOfThisMonth"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
 				 alt="28日スケジュール登録"  name="submit" ></span>18</td>
-				<td class="dayOfOtherMonth1"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
+				<td class="dayOfThisMonth"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
 				 alt="28日スケジュール登録"  name="submit" ></span>19</td>
-				<td class="dayOfOtherMonth1"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
+				<td class="dayOfThisMonth"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
 				 alt="28日スケジュール登録"  name="submit" ></span>20</td>
-				<td class="dayOfOtherMonth1"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
+				<td class="dayOfThisMonth"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
 				 alt="28日スケジュール登録"  name="submit" ></span>21</td>
-				<td class="dayOfOtherMonth1"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
+				<td class="dayOfThisMonth"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
 				 alt="28日スケジュール登録"  name="submit" ></span>22</td>
-				<td class="dayOfOtherMonth1"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
+				<td class="dayOfThisMonth"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
 				 alt="28日スケジュール登録"  name="submit" ></span>23</td>
 			</tr>
 
 			<tr align="right" valign="top">
-				<td class="dayOfOtherMonth1"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
+				<td class="dayOfThisMonth"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
 				 alt="28日スケジュール登録"  name="submit" ></span>24</td>
-				<td class="dayOfOtherMonth1"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
+				<td class="dayOfThisMonth"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
 				 alt="28日スケジュール登録"  name="submit" ></span>25</td>
-				<td class="dayOfOtherMonth1"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
+				<td class="dayOfThisMonth"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
 				 alt="28日スケジュール登録"  name="submit" ></span>26</td>
-				<td class="dayOfOtherMonth1"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
+				<td class="dayOfThisMonth"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
 				 alt="28日スケジュール登録"  name="submit" ></span>27</td>
-				<td class="dayOfOtherMonth1"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
+				<td class="dayOfThisMonth"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
 				 alt="28日スケジュール登録"  name="submit" ></span>28</td>
 				<td class="dayOfOtherMonth"><span class="btn"><input type="image" src="<c:url value='/static/images/scadd.gif'/>"
 				 alt="28日スケジュール登録"  name="submit" ></span>1</td>

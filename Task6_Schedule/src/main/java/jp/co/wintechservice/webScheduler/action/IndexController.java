@@ -2,6 +2,8 @@ package jp.co.wintechservice.webScheduler.action;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import jp.co.wintechservice.webScheduler.calender_day.CalenderDay;
 import jp.co.wintechservice.webScheduler.form.LoginForm;
 import jp.co.wintechservice.webScheduler.model.MUser;
 import jp.co.wintechservice.webScheduler.repository.UserRepository;
@@ -24,6 +27,10 @@ public class IndexController {
     @Autowired
     private UserRepository userRep;
 
+    private int changeMonth = 0;
+
+    CalenderDay calenderDay = new CalenderDay();
+
     /**
      * トップページのコントローラー
      *
@@ -31,16 +38,17 @@ public class IndexController {
      * @return
      */
     @RequestMapping(value = "/calender", method = RequestMethod.POST)
-    public String calender(Model model, @ModelAttribute("loginForm")LoginForm loginForm, BindingResult bindingResult ) {
+    public String calender(Model model, @ModelAttribute("loginForm")LoginForm loginForm, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("loginErrorMessage", "ログインID,もしくはパスワードが間違っています");
             return "index";
-          }
+        }
+        //SAMPLE123  ABC123
 
         List<MUser> userList = userRep.findAll();
         for (MUser mUser : userList) {
             if (mUser.getLoginId().equals(loginForm.getLoginId())) {
-                model.addAttribute("loginId", loginForm.getLoginId());
+                calenderDay.setCalender(request, changeMonth);
                 return "calender201902";
             }
         }
@@ -48,13 +56,17 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/calender", params="previous", method = RequestMethod.POST)
-    public String calenderPrevious(Model model) {
-       return "calender201901";
+    public String calenderPrevious(Model model, HttpServletRequest request) {
+        changeMonth++;
+        calenderDay.setCalender(request, changeMonth);
+        return "calender201902";
     }
 
     @RequestMapping(value = "/calender", params="next", method = RequestMethod.POST)
-    public String calenderNext(Model model) {
-       return "calender201903";
+    public String calenderNext(Model model, HttpServletRequest request) {
+        changeMonth--;
+        calenderDay.setCalender(request, changeMonth);
+        return "calender201902";
     }
 
     @RequestMapping(value = "/scheduling", method = RequestMethod.POST)

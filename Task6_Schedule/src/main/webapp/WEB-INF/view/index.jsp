@@ -20,7 +20,7 @@
 		</div>
 		<br>
 		<div>
-			パスワード：<input type="text" name="password">
+			パスワード：<input type="password" name="password">
 		</div>
 		<br>
 		<div>

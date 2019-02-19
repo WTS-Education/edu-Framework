@@ -3,6 +3,7 @@ package jp.co.wintechservice.webScheduler.action;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,8 +40,8 @@ public class IndexController {
      */
     @RequestMapping(value = "/calender", method = RequestMethod.POST)
     public String calender(Model model, @ModelAttribute("loginForm")LoginForm loginForm, BindingResult bindingResult, HttpServletRequest request) {
+
         if (bindingResult.hasErrors()) {
-            model.addAttribute("loginErrorMessage", "ログインID,もしくはパスワードが間違っています");
             return "index";
         }
         //SAMPLE123  ABC123
@@ -48,7 +49,8 @@ public class IndexController {
         List<MUser> userList = userRep.findAll();
         for (MUser mUser : userList) {
             if (mUser.getLoginId().equals(loginForm.getLoginId())) {
-                calenderDay.setCalender(request, changeMonth);
+                HttpSession session = request.getSession();
+                calenderDay.setCalender(changeMonth, session);
                 return "calender201902";
             }
         }
@@ -58,14 +60,16 @@ public class IndexController {
     @RequestMapping(value = "/calender", params="previous", method = RequestMethod.POST)
     public String calenderPrevious(Model model, HttpServletRequest request) {
         changeMonth++;
-        calenderDay.setCalender(request, changeMonth);
+        HttpSession session = request.getSession();
+        calenderDay.setCalender(changeMonth, session);
         return "calender201902";
     }
 
     @RequestMapping(value = "/calender", params="next", method = RequestMethod.POST)
     public String calenderNext(Model model, HttpServletRequest request) {
         changeMonth--;
-        calenderDay.setCalender(request, changeMonth);
+        HttpSession session = request.getSession();
+        calenderDay.setCalender(changeMonth, session);
         return "calender201902";
     }
 

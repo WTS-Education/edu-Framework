@@ -3,7 +3,6 @@ package jp.co.wintechservice.webScheduler.calender_day;
 import java.util.Arrays;
 import java.util.Calendar;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -13,7 +12,7 @@ import javax.servlet.http.HttpSession;
  */
 public class CalenderDay {
 
-    public void setCalender(HttpServletRequest request, int changeMonth) {
+    public void setCalender(int changeMonth, HttpSession session) {
         int year, month, firstDayOfWeek;
         Calendar calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
@@ -37,6 +36,7 @@ public class CalenderDay {
             calendar.set(year, month, 0);
             int thisMonthlastDay = calendar.get(Calendar.DATE);
 
+            /* 35日分(1週間 * 5)の配列 */
             int[] calendarDay = new int[35];
             int index = 0;
 
@@ -55,18 +55,23 @@ public class CalenderDay {
                 calendarDay[index++] = nextMonthDay++;
             }
 
+            /* 年と月配列 */
+            int[] yearAndMonth = {year, month};
+
             /* 日付を格納した配列を5つ(5週分)に分割 */
-            int[] firstWeek = Arrays.copyOfRange(calendarDay, 0, 6);
-            int[] secondWeek = Arrays.copyOfRange(calendarDay, 7, 13);
-            int[] thirdWeek = Arrays.copyOfRange(calendarDay, 14, 20);
-            int[] forthWeek = Arrays.copyOfRange(calendarDay, 21, 27);
-            int[] fifthWeek = Arrays.copyOfRange(calendarDay, 28, 34);
+            int[] firstWeek = Arrays.copyOfRange(calendarDay, 0, 7);
+            int[] secondWeek = Arrays.copyOfRange(calendarDay, 8, 15);
+            int[] thirdWeek = Arrays.copyOfRange(calendarDay, 16, 23);
+            int[] forthWeek = Arrays.copyOfRange(calendarDay, 24, 31);
+            int[] fifthWeek = Arrays.copyOfRange(calendarDay, 32, 39);
 
-
-            HttpSession session = request.getSession();
-            session.setAttribute("year", year);
-            session.setAttribute("month", month);
-            session.setAttribute("day", calendarDay);
+            /* 年、月、日付配列をセッションスコープに格納 */
+            session.setAttribute("yearAndMonth", yearAndMonth);
+            session.setAttribute("firstWeek", firstWeek);
+            session.setAttribute("secondWeek", secondWeek);
+            session.setAttribute("thirdWeek", thirdWeek);
+            session.setAttribute("forthWeek", forthWeek);
+            session.setAttribute("fifthWeek", fifthWeek);
         }
     }
 }

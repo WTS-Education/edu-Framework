@@ -20,7 +20,12 @@
 <body>
 
 	<%
-	    int day[] = (int[]) session.getAttribute("day");
+	int yearAndMonth[] = (int[])session.getAttribute("yearAndMonth");
+	int firstWeek[] = (int[]) session.getAttribute("firstWeek");
+	int secondWeek[] = (int[]) session.getAttribute("secondWeek");
+	int thirdWeek[] = (int[]) session.getAttribute("thirdWeek");
+	int forthWeek[] = (int[]) session.getAttribute("forthWeek");
+	int fifthWeek[] = (int[]) session.getAttribute("fifthWeek");
 	%>
 
 	<f:form name="calender" method="post" action="calender">
@@ -53,8 +58,8 @@
 			<colgroup span="1" class="saturday"></colgroup>
 
 			<tr class="yearAndMonth">
-				<td colspan="7" class="month"><c:out value="${year}"></c:out>年<c:out
-						value="${month}"></c:out>月</td>
+				<td colspan="7" class="month"><c:out value="${yearAndMonth[0]}"></c:out>年<c:out
+						value="${yearAndMonth[1]}"></c:out>月</td>
 			</tr>
 
 			<tr class="dayOfTheWeek">
@@ -76,7 +81,19 @@
 						<input type="image" src="<c:url value='/static/images/scadd.gif'/>" alt="スケジュール登録" name="submit">
 						</span>
 						<% if(i == 0){ %>
-							<%=  %>
+							<%= firstWeek[j] %>
+						<% } %>
+						<% if(i == 1){ %>
+							<%= secondWeek[j] %>
+						<% } %>
+						<% if(i == 2){ %>
+							<%= thirdWeek[j] %>
+						<% } %>
+						<% if(i == 3){ %>
+							<%= forthWeek[j] %>
+						<% } %>
+						<% if(i == 4){ %>
+							<%= fifthWeek[j] %>
 						<% } %>
 						</td>
 						<% count += 7; %>

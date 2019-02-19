@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Calendar"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -21,11 +23,8 @@
 
 	<%
 	int yearAndMonth[] = (int[])session.getAttribute("yearAndMonth");
-	int firstWeek[] = (int[]) session.getAttribute("firstWeek");
-	int secondWeek[] = (int[]) session.getAttribute("secondWeek");
-	int thirdWeek[] = (int[]) session.getAttribute("thirdWeek");
-	int forthWeek[] = (int[]) session.getAttribute("forthWeek");
-	int fifthWeek[] = (int[]) session.getAttribute("fifthWeek");
+	ArrayList<ArrayList<Integer>> calendarDay = new ArrayList<ArrayList<Integer>>();
+	calendarDay = (ArrayList<ArrayList<Integer>>) session.getAttribute("calendarDay");
 	%>
 
 	<f:form name="calender" method="post" action="calender">
@@ -39,10 +38,9 @@
 			<tr>
 				<td>
 					<div class="btn">
-						<input type="submit" value="&nbsp;" class="previous_btn"
-							name="previous"> <input type="submit" value="今月"
-							class="thisMonth_btn"> <input type="submit"
-							value="&nbsp;" class="next_btn" name="next">
+						<input type="submit" value="&nbsp;" class="previous_btn" name="previous">
+						<input type="submit" value="今月" class="thisMonth_btn" name ="thisMonth">
+						<input type="submit" value="&nbsp;" class="next_btn" name="next">
 					</div>
 				</td>
 			</tr>
@@ -72,31 +70,15 @@
 				<th style="color: blue">土</th>
 			</tr>
 
-			<% int count = 0; %>
-			<% for(int i = 0; i < 5 + count; i++){ %>
+			<% for(int i = 0; i < calendarDay.size(); i++){ %>
 				<tr align="right" valign="top">
-					<% for(int j = 0 + count; j <= 6 + count; j++){ %>
+					<% for(int j = 0; j < calendarDay.get(i).size() ; j++){ %>
 						<td class="dayOfOtherMonth">
 						<span class="btn">
 						<input type="image" src="<c:url value='/static/images/scadd.gif'/>" alt="スケジュール登録" name="submit">
 						</span>
-						<% if(i == 0){ %>
-							<%= firstWeek[j] %>
-						<% } %>
-						<% if(i == 1){ %>
-							<%= secondWeek[j] %>
-						<% } %>
-						<% if(i == 2){ %>
-							<%= thirdWeek[j] %>
-						<% } %>
-						<% if(i == 3){ %>
-							<%= forthWeek[j] %>
-						<% } %>
-						<% if(i == 4){ %>
-							<%= fifthWeek[j] %>
-						<% } %>
+						<%= calendarDay.get(i).get(j) %>
 						</td>
-						<% count += 7; %>
 					<% } %>
 				</tr>
 			<% } %>

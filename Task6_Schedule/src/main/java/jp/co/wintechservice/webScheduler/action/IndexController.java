@@ -28,7 +28,7 @@ public class IndexController {
     @Autowired
     private UserRepository userRep;
 
-    private int changeMonth = 0;
+    private int changeMonth = 1;
 
     CalenderDay calenderDay = new CalenderDay();
 
@@ -49,6 +49,7 @@ public class IndexController {
         List<MUser> userList = userRep.findAll();
         for (MUser mUser : userList) {
             if (mUser.getLoginId().equals(loginForm.getLoginId())) {
+                changeMonth = 0;
                 HttpSession session = request.getSession();
                 calenderDay.setCalender(changeMonth, session);
                 return "calender201902";
@@ -59,7 +60,15 @@ public class IndexController {
 
     @RequestMapping(value = "/calender", params="previous", method = RequestMethod.POST)
     public String calenderPrevious(Model model, HttpServletRequest request) {
-        changeMonth++;
+        changeMonth--;
+        HttpSession session = request.getSession();
+        calenderDay.setCalender(changeMonth, session);
+        return "calender201902";
+    }
+
+    @RequestMapping(value = "/calender", params="thisMonth", method = RequestMethod.POST)
+    public String calenderThisMonth(Model model, HttpServletRequest request) {
+        changeMonth = 0;
         HttpSession session = request.getSession();
         calenderDay.setCalender(changeMonth, session);
         return "calender201902";
@@ -67,7 +76,7 @@ public class IndexController {
 
     @RequestMapping(value = "/calender", params="next", method = RequestMethod.POST)
     public String calenderNext(Model model, HttpServletRequest request) {
-        changeMonth--;
+        changeMonth++;
         HttpSession session = request.getSession();
         calenderDay.setCalender(changeMonth, session);
         return "calender201902";

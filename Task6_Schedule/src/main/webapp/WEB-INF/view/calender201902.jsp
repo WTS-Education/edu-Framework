@@ -22,7 +22,6 @@
 <body>
 
 	<%
-	int yearAndMonth[] = (int[])session.getAttribute("yearAndMonth");
 	ArrayList<ArrayList<Integer>> calendarDay = new ArrayList<ArrayList<Integer>>();
 	calendarDay = (ArrayList<ArrayList<Integer>>) session.getAttribute("calendarDay");
 	%>
@@ -70,18 +69,18 @@
 				<th style="color: blue">土</th>
 			</tr>
 
-			<% for(int i = 0; i < calendarDay.size(); i++){ %>
+			<c:forEach var="week" items="${calendarDay}">
 				<tr align="right" valign="top">
-					<% for(int j = 0; j < calendarDay.get(i).size() ; j++){ %>
+					<c:forEach var="day" items="${week}">
 						<td class="dayOfOtherMonth">
 						<span class="btn">
 						<input type="image" src="<c:url value='/static/images/scadd.gif'/>" alt="スケジュール登録" name="submit">
 						</span>
-						<%= calendarDay.get(i).get(j) %>
+						<c:out value="${day}" />
 						</td>
-					<% } %>
+					</c:forEach>
 				</tr>
-			<% } %>
+			</c:forEach>
 
 		</table>
 	</f:form>

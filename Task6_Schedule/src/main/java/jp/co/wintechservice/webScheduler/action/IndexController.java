@@ -28,7 +28,7 @@ public class IndexController {
     @Autowired
     private UserRepository userRep;
 
-    private int changeMonth = 1;
+    private int changeMonth = 0;
 
     CalenderDay calenderDay = new CalenderDay();
 
@@ -51,7 +51,8 @@ public class IndexController {
             if (mUser.getLoginId().equals(loginForm.getLoginId())) {
                 changeMonth = 0;
                 HttpSession session = request.getSession();
-                calenderDay.setCalender(changeMonth, session);
+                session.setAttribute("changeMonth", changeMonth);
+                calenderDay.setCalender(session);
                 return "calender201902";
             }
         }
@@ -60,25 +61,28 @@ public class IndexController {
 
     @RequestMapping(value = "/calender", params="previous", method = RequestMethod.POST)
     public String calenderPrevious(Model model, HttpServletRequest request) {
-        changeMonth--;
         HttpSession session = request.getSession();
-        calenderDay.setCalender(changeMonth, session);
+        changeMonth--;
+        session.setAttribute("changeMonth", changeMonth);
+        calenderDay.setCalender(session);
         return "calender201902";
     }
 
     @RequestMapping(value = "/calender", params="thisMonth", method = RequestMethod.POST)
     public String calenderThisMonth(Model model, HttpServletRequest request) {
-        changeMonth = 0;
         HttpSession session = request.getSession();
-        calenderDay.setCalender(changeMonth, session);
+        changeMonth = 0;
+        session.setAttribute("changeMonth", changeMonth);
+        calenderDay.setCalender(session);
         return "calender201902";
     }
 
     @RequestMapping(value = "/calender", params="next", method = RequestMethod.POST)
     public String calenderNext(Model model, HttpServletRequest request) {
-        changeMonth++;
         HttpSession session = request.getSession();
-        calenderDay.setCalender(changeMonth, session);
+        changeMonth++;
+        session.setAttribute("changeMonth", changeMonth);
+        calenderDay.setCalender(session);
         return "calender201902";
     }
 

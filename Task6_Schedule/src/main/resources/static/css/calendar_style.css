@@ -1,9 +1,5 @@
 @charset "UTF-8";
 
-body {
-  background: #FCECEA;
-}
-
 table.calendar_titleAndBtn {
 	background-color: #d7dee8;
 	height: 50px;

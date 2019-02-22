@@ -28,7 +28,7 @@ public class CalendarDay {
         /* 現在表示されている年、月を格納する配列 [0] = 年 [1] = 月 */
         int[] yearAndMonth = (int[]) session.getAttribute("yearAndMonth");
         if (yearAndMonth == null) {
-            yearAndMonth = new int[2];
+            yearAndMonth = new int[3];
             yearAndMonth[0] = calendar.get(Calendar.YEAR);
             yearAndMonth[1] = calendar.get(Calendar.MONTH);
         }
@@ -56,7 +56,6 @@ public class CalendarDay {
             session.setAttribute("next", null);
         }
         yearAndMonth[1] = month;
-        session.setAttribute("yearAndMonth", yearAndMonth);
 
         /* 先月最終日 */
         calendar2.set(year, month, 0);
@@ -64,9 +63,12 @@ public class CalendarDay {
         /* 今月最終日 */
         calendar3.set(year, month + 1, 0);
         int thisMonthlastDay = calendar3.get(Calendar.DATE);
+        yearAndMonth[2] = thisMonthlastDay;
         /* 今月ついたちは何曜日?(日:1～土:７) */
         calendar4.set(year, month, 1);
         firstDayOfWeek = calendar4.get(Calendar.DAY_OF_WEEK);
+
+        session.setAttribute("yearAndMonth", yearAndMonth);
 
         /* 35日分(1週間 * 5)の配列 */
         List<Integer> calendarDay = new ArrayList<Integer>();

@@ -1,4 +1,4 @@
-package jp.co.wintechservice.webScheduler.calender_day;
+package jp.co.wintechservice.webScheduler.calendar_day;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
  * @author KohariJunichiro
  *
  */
-public class CalenderDay {
+public class CalendarDay {
 
     /**
      * カレンダーの日付を動的に表示するための計算
@@ -20,7 +20,6 @@ public class CalenderDay {
      */
     public void setCalender(HttpSession session) {
         int year, month, firstDayOfWeek;
-        int nowYear, nowMonth;
         Calendar calendar = Calendar.getInstance();
         Calendar calendar2 = Calendar.getInstance();
         Calendar calendar3 = Calendar.getInstance();

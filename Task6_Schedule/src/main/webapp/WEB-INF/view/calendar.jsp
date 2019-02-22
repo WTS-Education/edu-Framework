@@ -14,8 +14,8 @@
 
 <head>
 <meta charset="utf-8">
-<title>カレンダー201902</title>
-<link href="<c:url value='/static/css/calender_style.css'/>"
+<title>カレンダー</title>
+<link href="<c:url value='/static/css/calendar_style.css'/>"
 	type="text/css" rel="stylesheet" />
 </head>
 
@@ -26,8 +26,8 @@
 	calendarDayDividedBy5or6weeks = (ArrayList<ArrayList<Integer>>) session.getAttribute("calendarDayDividedBy5or6");
 	%>
 
-	<f:form name="calender" method="post" action="calender">
-		<table border="1" class="calender_titleAndBtn">
+	<f:form name="calender" method="post" action="calendar">
+		<table border="1" class="calendar_titleAndBtn">
 			<tr>
 				<td><img alt="カレンダーアイコン"
 					src="<c:url value='/static/images/header_schedule_01.gif'/>"><span

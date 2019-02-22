@@ -1,10 +1,10 @@
 @charset "UTF-8";
 
 body {
-  background: #fffbf4;
+  background: #FCECEA;
 }
 
-table.calender_titleAndBtn {
+table.calendar_titleAndBtn {
 	background-color: #d7dee8;
 	height: 50px;
 	width: 100%;

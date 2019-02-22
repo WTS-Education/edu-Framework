@@ -12,12 +12,24 @@
 	type="text/css" rel="stylesheet" />
 </head>
 <body>
-<div class="information" align="center">
-<f:form name="ok"  method="post" action="calender">
-インフォメーション<br>
-[スケジュール]の登録が完了しました<br>
-<input type="submit" value="ok">
-</f:form>
-</div>
+	<div class="block_parent">
+	<div class="block_child">
+	<div class="block_grandchild">
+		<f:form name="ok"  method="post" action="calender">
+			<div>
+				Imformation
+			</div>
+			<br>
+			<div>
+				[スケジュール]の登録が完了しました
+			</div>
+			<br>
+			<div>
+				<input type="submit" value="OK">
+			</div>
+		</f:form>
+	</div>
+	</div>
+	</div>
 </body>
 </html>

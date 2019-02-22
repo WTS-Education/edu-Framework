@@ -13,7 +13,6 @@ import javax.servlet.http.HttpSession;
  */
 public class CalenderDay {
 
-    int changeYear = 0;
     /**
      * カレンダーの日付を動的に表示するための計算
      * 日付情報をリストに入れてセッションスコープに格納
@@ -21,29 +20,44 @@ public class CalenderDay {
      */
     public void setCalender(HttpSession session) {
         int year, month, firstDayOfWeek;
+        int nowYear, nowMonth;
         Calendar calendar = Calendar.getInstance();
         Calendar calendar2 = Calendar.getInstance();
         Calendar calendar3 = Calendar.getInstance();
         Calendar calendar4 = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
-        month = calendar.get(Calendar.MONTH);
-        int changeMonth = (Integer) session.getAttribute("changeMonth") % 12;
 
-        /* 年をまたいだ際の年月計算 */
-        month += changeMonth;
-        if (month < 0) {
-            month = 11;
-            changeYear--;
-            session.setAttribute("changeYear", changeYear);
-            session.setAttribute("changeMonth", changeMonth);
-        } else if (11 < month) {
-            month = 0;
-            changeYear++;
-            session.setAttribute("changeYear", changeYear);
-            session.setAttribute("changeMonth", changeMonth);
+        /* 現在表示されている年、月を格納する配列 [0] = 年 [1] = 月 */
+        int[] yearAndMonth = (int[]) session.getAttribute("yearAndMonth");
+        if (yearAndMonth == null) {
+            yearAndMonth = new int[2];
+            yearAndMonth[0] = calendar.get(Calendar.YEAR);
+            yearAndMonth[1] = calendar.get(Calendar.MONTH);
         }
-        changeYear = (Integer) session.getAttribute("changeYear");
-        year += changeYear;
+        year = yearAndMonth[0];
+        month = yearAndMonth[1];
+
+        /* 月の値を加算減算 */
+        if (session.getAttribute("previous") != null) {
+            if (month == 0) {
+                year -= 1;
+                month = 11;
+                yearAndMonth[0] = year;
+            } else {
+                month -= 1;
+            }
+            session.setAttribute("previous", null);
+        } else if (session.getAttribute("next") != null) {
+            if (month == 11) {
+                year += 1;
+                month = 0;
+                yearAndMonth[0] = year;
+            } else {
+                month += 1;
+            }
+            session.setAttribute("next", null);
+        }
+        yearAndMonth[1] = month;
+        session.setAttribute("yearAndMonth", yearAndMonth);
 
         /* 先月最終日 */
         calendar2.set(year, month, 0);
@@ -56,53 +70,59 @@ public class CalenderDay {
         firstDayOfWeek = calendar4.get(Calendar.DAY_OF_WEEK);
 
         /* 35日分(1週間 * 5)の配列 */
-        List<Integer> calendarDay35 = new ArrayList<Integer>();
-        //            int[] calendarDay35 = new int[35];
+        List<Integer> calendarDay = new ArrayList<Integer>();
+        //            int[] calendarDay = new int[35];
 
         /* 先月分の日付 */
         for (int i = firstDayOfWeek - 2 ; i >= 0 ; i--){
-            calendarDay35.add(previousMonthlastDay - i);
-            //                calendarDay35[index++] = previousMonthlastDay - i;
+            calendarDay.add(previousMonthlastDay - i);
+            //                calendarDay[index++] = previousMonthlastDay - i;
         }
 
         /* 今月の日付 */
         for (int i = 1 ; i <= thisMonthlastDay ; i++){
-            calendarDay35.add(i);
-            //                calendarDay35[index++] = i;
+            calendarDay.add(i);
+            //                calendarDay[index++] = i;
         }
         /* 来月分の日付 */
         int nextMonthDay = 1;
-        while (calendarDay35.size() < 35){
-            calendarDay35.add(nextMonthDay++);
-            //                calendarDay35[index++] = nextMonthDay++;
+        while (calendarDay.size() < 42){
+            calendarDay.add(nextMonthDay++);
+            //                calendarDay[index++] = nextMonthDay++;
         }
 
         int count = 0;
-        List<ArrayList<Integer>> calendarDay5_7 = new ArrayList<ArrayList<Integer>>();
-        for (int i = 0; i < 5; i++) {
-            ArrayList<Integer> calendarWeek = new ArrayList<Integer>();
-            for (int j = 0; j < 7; j++) {
-                int calendarDay = calendarDay35.get(count++);
-                calendarWeek.add(calendarDay);
+        List<ArrayList<Integer>> calendarDayDividedBy5or6 = new ArrayList<ArrayList<Integer>>();
+
+        if (calendarDay.indexOf(thisMonthlastDay) <= 35) {
+            for (int i = 0; i < 5; i++) {
+                ArrayList<Integer> calendarWeek = new ArrayList<Integer>();
+                for (int j = 0; j < 7; j++) {
+                    int oneWeek = calendarDay.get(count++);
+                    calendarWeek.add(oneWeek);
+                }
+                calendarDayDividedBy5or6.add(calendarWeek);
             }
-            calendarDay5_7.add(calendarWeek);
+        } else if (36 <= calendarDay.indexOf(thisMonthlastDay)) {
+            for (int i = 0; i < 6; i++) {
+                ArrayList<Integer> calendarWeek = new ArrayList<Integer>();
+                for (int j = 0; j < 7; j++) {
+                    int oneWeek = calendarDay.get(count++);
+                    calendarWeek.add(oneWeek);
+                }
+                calendarDayDividedBy5or6.add(calendarWeek);
+            }
         }
-
-
 
         //            int[][] calendarDay7_5 = new int[5][7];
         //            for (int i = 0; i < calendarDay7_5.length; i++) {
         //                for (int j = 0; j < calendarDay7_5[i].length; j++) {
-        //                    calendarDay7_5[i][j] = calendarDay35[count++];
+        //                    calendarDay7_5[i][j] = calendarDay[count++];
         //                }
         //            }
 
-        /* 年と月配列 */
-        int[] yearAndMonth = {year, month + 1};
-
-        /* 年、月、日付配列をセッションスコープに格納 */
-        session.setAttribute("yearAndMonth", yearAndMonth);
-        session.setAttribute("calendarDay", calendarDay5_7);
+        /* 日付配列をセッションスコープに格納 */
+        session.setAttribute("calendarDayDividedBy5or6", calendarDayDividedBy5or6);
         //            session.setAttribute("calendarDay", calendarDay7_5);
 
     }

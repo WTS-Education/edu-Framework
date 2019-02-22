@@ -23,7 +23,7 @@
 
 	<%
 	ArrayList<ArrayList<Integer>> calendarDay = new ArrayList<ArrayList<Integer>>();
-	calendarDay = (ArrayList<ArrayList<Integer>>) session.getAttribute("calendarDay");
+	calendarDay = (ArrayList<ArrayList<Integer>>) session.getAttribute("calendarDayDividedBy5or6");
 	%>
 
 	<f:form name="calender" method="post" action="calender">
@@ -56,7 +56,7 @@
 
 			<tr class="yearAndMonth">
 				<td colspan="7" class="month"><c:out value="${yearAndMonth[0]}"></c:out>年<c:out
-						value="${yearAndMonth[1]}"></c:out>月</td>
+						value="${yearAndMonth[1] + 1}"></c:out>月</td>
 			</tr>
 
 			<tr class="dayOfTheWeek">

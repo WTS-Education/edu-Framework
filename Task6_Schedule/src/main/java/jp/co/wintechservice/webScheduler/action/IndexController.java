@@ -28,9 +28,6 @@ public class IndexController {
     @Autowired
     private UserRepository userRep;
 
-    private int changeYear = 0;
-    private int changeMonth = 0;
-
     CalenderDay calenderDay = new CalenderDay();
 
     /**
@@ -50,11 +47,8 @@ public class IndexController {
         List<MUser> userList = userRep.findAll();
         for (MUser mUser : userList) {
             if (mUser.getLoginId().equals(loginForm.getLoginId())) {
-                changeYear = 0;
-                changeMonth = 0;
                 HttpSession session = request.getSession();
-                session.setAttribute("changeYear", changeYear);
-                session.setAttribute("changeMonth", changeMonth);
+                session.setAttribute("yearAndMonth", null);
                 calenderDay.setCalender(session);
                 return "calender201902";
             }
@@ -65,9 +59,7 @@ public class IndexController {
     @RequestMapping(value = "/calender", params="previous", method = RequestMethod.POST)
     public String calenderPrevious(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        changeMonth = (Integer) session.getAttribute("changeMonth");
-        changeMonth--;
-        session.setAttribute("changeMonth", changeMonth);
+        session.setAttribute("previous", "previous");
         calenderDay.setCalender(session);
         return "calender201902";
     }
@@ -75,10 +67,7 @@ public class IndexController {
     @RequestMapping(value = "/calender", params="thisMonth", method = RequestMethod.POST)
     public String calenderThisMonth(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        changeYear = 0;
-        changeMonth = 0;
-        session.setAttribute("changeYear", changeYear);
-        session.setAttribute("changeMonth", changeMonth);
+        session.setAttribute("yearAndMonth", null);
         calenderDay.setCalender(session);
         return "calender201902";
     }
@@ -86,9 +75,7 @@ public class IndexController {
     @RequestMapping(value = "/calender", params="next", method = RequestMethod.POST)
     public String calenderNext(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        changeMonth = (Integer) session.getAttribute("changeMonth");
-        changeMonth++;
-        session.setAttribute("changeMonth", changeMonth);
+        session.setAttribute("next", "next");
         calenderDay.setCalender(session);
         return "calender201902";
     }

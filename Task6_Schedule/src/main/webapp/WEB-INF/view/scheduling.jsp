@@ -48,26 +48,18 @@
 
 			<tr>
 				<th class="key">開始</th>
-				<td class="value"><select name="year">
-						<option value="2018">2018年</option>
-						<option value="2019">2019年</option>
-						<option value="2020">2020年</option>
-						<option value="2021">2021年</option>
-						<option value="2022">2022年</option>
-				</select> <select name="month">
-						<option value="jan">1月</option>
-						<option value="feb">2月</option>
-						<option value="mar">3月</option>
-						<option value="apr">4月</option>
-						<option value="may">5月</option>
-						<option value="jun">6月</option>
-						<option value="jul">7月</option>
-						<option value="aug">8月</option>
-						<option value="sep">9月</option>
-						<option value="oct">10月</option>
-						<option value="nov">11月</option>
-						<option value="dec">12月</option>
-				</select> <select name="day">
+				<td class="value">
+				<select name="year">
+				<c:forEach var="year" begin="2018" end="2022">
+						<option value="${year}年}"><c:out value = "${year}"/>年</option>
+				</c:forEach>
+				</select>
+				<select name="month">
+				<c:forEach var="month" begin="1" end="12">
+						<option value="${month}月"><c:out value = "${month}"/>月</option>
+				</c:forEach>
+				</select>
+				<select name="day">
 						<option value="1">1日</option>
 						<option value="2">2日</option>
 						<option value="3">3日</option>
@@ -99,7 +91,8 @@
 						<option value="29">29日</option>
 						<option value="30">30日</option>
 						<option value="31">31日</option>
-				</select> <select name="oclock">
+				</select>
+				<select name="oclock">
 						<option value="未設定">未設定</option>
 						<option value="0">0</option>
 						<option value="1">1</option>
@@ -110,7 +103,7 @@
 						<option value="6">6</option>
 						<option value="7">7</option>
 						<option value="8">8</option>
-						<option value="9">9</option>
+						<option value="9" selected="selected">9</option>
 						<option value="10">10</option>
 						<option value="11">11</option>
 						<option value="12">12</option>
@@ -125,37 +118,31 @@
 						<option value="21">21</option>
 						<option value="22">22</option>
 						<option value="23">23</option>
-				</select> 時 <select name="minute">
+				</select> 時
+				<select name="minute">
 						<option value="未設定">未設定</option>
-						<option value="00">00</option>
+						<option value="00" selected="selected">00</option>
 						<option value="15">15</option>
 						<option value="30">30</option>
 						<option value="45">45</option>
-				</select> 分 <input type="checkbox" name="assignTime">時間指定無し</td>
+				</select> 分
+				<input type="checkbox" name="assignTime">時間指定無し</td>
 			</tr>
 
 			<tr>
 				<th>終了</th>
-				<td><select name="year">
-						<option value="2018">2018年</option>
-						<option value="2019">2019年</option>
-						<option value="2020">2020年</option>
-						<option value="2021">2021年</option>
-						<option value="2022">2022年</option>
-				</select> <select name="month">
-						<option value="jan">1月</option>
-						<option value="feb">2月</option>
-						<option value="mar">3月</option>
-						<option value="apr">4月</option>
-						<option value="may">5月</option>
-						<option value="jun">6月</option>
-						<option value="jul">7月</option>
-						<option value="aug">8月</option>
-						<option value="sep">9月</option>
-						<option value="oct">10月</option>
-						<option value="nov">11月</option>
-						<option value="dec">12月</option>
-				</select> <select name="day">
+				<td>
+				<select name="year">
+				<c:forEach var="year" begin="2018" end="2022">
+						<option value="${year}年"><c:out value = "${year}"/>年</option>
+				</c:forEach>
+				</select>
+				<select name="month">
+				<c:forEach var="month" begin="1" end="12">
+						<option value="${month}月"><c:out value = "${month}"/>月</option>
+				</c:forEach>
+				</select>
+				<select name="day">
 						<option value="1">1日</option>
 						<option value="2">2日</option>
 						<option value="3">3日</option>
@@ -187,7 +174,8 @@
 						<option value="29">29日</option>
 						<option value="30">30日</option>
 						<option value="31">31日</option>
-				</select> <select name="oclock">
+				</select>
+				<select name="oclock">
 						<option value="未設定">未設定</option>
 						<option value="0">0</option>
 						<option value="1">1</option>
@@ -207,19 +195,21 @@
 						<option value="15">15</option>
 						<option value="16">16</option>
 						<option value="17">17</option>
-						<option value="18">18</option>
+						<option value="18" selected="selected">18</option>
 						<option value="19">19</option>
 						<option value="20">20</option>
 						<option value="21">21</option>
 						<option value="22">22</option>
 						<option value="23">23</option>
-				</select> 時 <select name="minute">
+				</select> 時
+				<select name="minute">
 						<option value="未設定">未設定</option>
-						<option value="00">00</option>
+						<option value="00" selected="selected">00</option>
 						<option value="15">15</option>
 						<option value="30">30</option>
 						<option value="45">45</option>
-				</select> 分 期間:一日間</td>
+				</select> 分 期間:一日間
+				</td>
 			</tr>
 
 			<tr>

@@ -18,7 +18,7 @@
 	<div class="form_block_parent">
 	<div class="form_block_child">
 	<div class="form_block_grandchild">
-	<f:form modelAttribute="loginForm" action="calender" method="post">
+	<f:form modelAttribute="loginForm" action="calendar" method="post">
 		<div class="loginId">
 			Login_ID<input type="text" name="loginId">
 		</div>

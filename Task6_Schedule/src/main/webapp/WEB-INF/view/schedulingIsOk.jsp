@@ -15,7 +15,7 @@
 	<div class="block_parent">
 	<div class="block_child">
 	<div class="block_grandchild">
-		<f:form name="ok"  method="post" action="calender">
+		<f:form name="ok"  method="post" action="calendar">
 			<div>
 				Imformation
 			</div>
@@ -25,7 +25,7 @@
 			</div>
 			<br>
 			<div>
-				<input type="submit" value="OK">
+				<input type="submit" value="OK" name="ok">
 			</div>
 		</f:form>
 	</div>

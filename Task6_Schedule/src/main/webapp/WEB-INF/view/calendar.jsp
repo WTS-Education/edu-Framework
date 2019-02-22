@@ -21,10 +21,8 @@
 
 <body>
 
-	<%
-	ArrayList<ArrayList<Integer>> calendarDayDividedBy5or6weeks = new ArrayList<ArrayList<Integer>>();
-	calendarDayDividedBy5or6weeks = (ArrayList<ArrayList<Integer>>) session.getAttribute("calendarDayDividedBy5or6");
-	%>
+<!-- // 	ArrayList<ArrayList<Integer>> calendarDayDividedBy5or6weeks = new ArrayList<ArrayList<Integer>>(); -->
+<!-- // 	calendarDayDividedBy5or6weeks = (ArrayList<ArrayList<Integer>>) session.getAttribute("calendarDayDividedBy5or6"); -->
 
 	<f:form name="calender" method="post" action="calendar">
 		<table border="1" class="calendar_titleAndBtn">
@@ -73,10 +71,10 @@
 				<tr align="right" valign="top">
 					<c:forEach var="day" items="${week}">
 						<td class="dayOfOtherMonth">
-						<span class="btn">
-						<input type="image" src="<c:url value='/static/images/scadd.gif'/>" alt="スケジュール登録" name="submit">
-						</span>
-						<c:out value="${day}" />
+							<span class="btn">
+							<input type="image" src="<c:url value='/static/images/scadd.gif'/>" alt="スケジュール登録" name="submit">
+							</span>
+							<c:out value="${day}" />
 						</td>
 					</c:forEach>
 				</tr>

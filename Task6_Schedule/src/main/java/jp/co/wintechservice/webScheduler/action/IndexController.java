@@ -52,7 +52,10 @@ public class IndexController {
                 return "calendar";
             }
         }
-        return "calendar";
+        if (request.getParameter("ok") != null) {
+            return "calendar";
+        }
+        return "index";
     }
 
     /**

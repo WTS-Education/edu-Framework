@@ -22,8 +22,8 @@
 <body>
 
 	<%
-	ArrayList<ArrayList<Integer>> calendarDay = new ArrayList<ArrayList<Integer>>();
-	calendarDay = (ArrayList<ArrayList<Integer>>) session.getAttribute("calendarDayDividedBy5or6");
+	ArrayList<ArrayList<Integer>> calendarDayDividedBy5or6weeks = new ArrayList<ArrayList<Integer>>();
+	calendarDayDividedBy5or6weeks = (ArrayList<ArrayList<Integer>>) session.getAttribute("calendarDayDividedBy5or6");
 	%>
 
 	<f:form name="calender" method="post" action="calender">
@@ -69,7 +69,7 @@
 				<th style="color: blue">土</th>
 			</tr>
 
-			<c:forEach var="week" items="${calendarDay}">
+			<c:forEach var="week" items="${calendarDayDividedBy5or6weeks}">
 				<tr align="right" valign="top">
 					<c:forEach var="day" items="${week}">
 						<td class="dayOfOtherMonth">

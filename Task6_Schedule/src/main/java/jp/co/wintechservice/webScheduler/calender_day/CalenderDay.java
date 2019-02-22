@@ -92,27 +92,19 @@ public class CalenderDay {
         }
 
         int count = 0;
-        List<ArrayList<Integer>> calendarDayDividedBy5or6 = new ArrayList<ArrayList<Integer>>();
+        List<ArrayList<Integer>> calendarDayDividedBy5or6weeks = new ArrayList<ArrayList<Integer>>();
 
-        if (calendarDay.indexOf(thisMonthlastDay) <= 35) {
-            for (int i = 0; i < 5; i++) {
-                ArrayList<Integer> calendarWeek = new ArrayList<Integer>();
-                for (int j = 0; j < 7; j++) {
-                    int oneWeek = calendarDay.get(count++);
-                    calendarWeek.add(oneWeek);
-                }
-                calendarDayDividedBy5or6.add(calendarWeek);
-            }
-        } else if (36 <= calendarDay.indexOf(thisMonthlastDay)) {
             for (int i = 0; i < 6; i++) {
                 ArrayList<Integer> calendarWeek = new ArrayList<Integer>();
                 for (int j = 0; j < 7; j++) {
                     int oneWeek = calendarDay.get(count++);
                     calendarWeek.add(oneWeek);
                 }
-                calendarDayDividedBy5or6.add(calendarWeek);
+                calendarDayDividedBy5or6weeks.add(calendarWeek);
+                if (i == 4 && calendarWeek.contains(thisMonthlastDay)) {
+                    break;
+                }
             }
-        }
 
         //            int[][] calendarDay7_5 = new int[5][7];
         //            for (int i = 0; i < calendarDay7_5.length; i++) {
@@ -122,7 +114,7 @@ public class CalenderDay {
         //            }
 
         /* 日付配列をセッションスコープに格納 */
-        session.setAttribute("calendarDayDividedBy5or6", calendarDayDividedBy5or6);
+        session.setAttribute("calendarDayDividedBy5or6weeks", calendarDayDividedBy5or6weeks);
         //            session.setAttribute("calendarDay", calendarDay7_5);
 
     }

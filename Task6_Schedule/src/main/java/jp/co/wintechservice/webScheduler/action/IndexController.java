@@ -1,21 +1,31 @@
 package jp.co.wintechservice.webScheduler.action;
 
+import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jp.co.wintechservice.webScheduler.calendar_day.CalendarDay;
+import jp.co.wintechservice.webScheduler.dao.ScheduleDataDao;
+import jp.co.wintechservice.webScheduler.dao.ScheduleDataDaoImpl;
 import jp.co.wintechservice.webScheduler.form.LoginForm;
+import jp.co.wintechservice.webScheduler.form.ScheduleForm;
 import jp.co.wintechservice.webScheduler.model.MUser;
+import jp.co.wintechservice.webScheduler.model.TSchedule;
 import jp.co.wintechservice.webScheduler.repository.UserRepository;
 
 /**
@@ -27,6 +37,10 @@ public class IndexController {
 
     @Autowired
     private UserRepository userRep;
+
+    private ApplicationContext context;
+
+    private EntityManager manager;
 
     CalendarDay calendarDay = new CalendarDay();
 
@@ -48,6 +62,10 @@ public class IndexController {
             if (mUser.getLoginId().equals(loginForm.getLoginId())) {
                 HttpSession session = request.getSession();
                 session.setAttribute("yearAndMonth", null);
+                int userId = mUser.getUserId();
+                session.setAttribute("userId", userId);
+                String userName = mUser.getUserName();
+                session.setAttribute("userName", userName);
                 calendarDay.setCalender(session);
                 return "calendar";
             }
@@ -59,10 +77,10 @@ public class IndexController {
     }
 
     /**
-     * 前月のカレンダーを表示するコントローラー
+     * ◀ボタンが押下された際に前月のカレンダーを表示するコントローラー
      * @param model
      * @param request
-     * @return calendar
+     * @return "calendar"
      */
     @RequestMapping(value = "/calendar", params="previous", method = RequestMethod.POST)
     public String calendarPrevious(Model model, HttpServletRequest request) {
@@ -72,6 +90,12 @@ public class IndexController {
         return "calendar";
     }
 
+    /**
+     * 今月ボタンが押下された際に今月のカレンダーを表示させるコントローラー
+     * @param model
+     * @param request
+     * @return "calendar"
+     */
     @RequestMapping(value = "/calendar", params="thisMonth", method = RequestMethod.POST)
     public String calendarThisMonth(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -80,6 +104,12 @@ public class IndexController {
         return "calendar";
     }
 
+    /**
+     * ▶ボタンが押下された際に翌月のカレンダーを表示させるコントローラー
+     * @param model
+     * @param request
+     * @return "calendar"
+     */
     @RequestMapping(value = "/calendar", params="next", method = RequestMethod.POST)
     public String calendarNext(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -88,14 +118,43 @@ public class IndexController {
         return "calendar";
     }
 
+    /**
+     * カレンダー→スケジュール登録ページ
+     * @param model
+     * @param request
+     * @return "sceduling"
+     */
     @RequestMapping(value = "/scheduling", method = RequestMethod.POST)
-    public String scheduling(Model model) {
+    public String scheduling(Model model, HttpServletRequest request, @RequestParam(name="selectedDay")String day) {
+        HttpSession session = request.getSession();
+        int selectedDay = Integer.parseInt(day);
+        session.setAttribute("selectedDay", selectedDay);
         return "scheduling";
     }
 
+    /**
+     * スケジュール登録「登録ボタン」→登録完了ページ
+     * スケジュール登録「戻るボタン」→カレンダーページ
+     * @param model
+     * @param request
+     * @return "schedulingIsOk"
+     * @return "calendar"
+     */
     @RequestMapping(value = "/schedulingIsOk", method = RequestMethod.POST)
-    public String schedulingIsOk(Model model, HttpServletRequest request) {
+    public String schedulingIsOk(Model model, HttpServletRequest request, @ModelAttribute("scheduleForm")ScheduleForm scheduleForm) {
         if (request.getParameter("plan") != null) {
+            context = new ClassPathXmlApplicationContext("classpath:/application-config.xml");
+            LocalContainerEntityManagerFactoryBean factoryBean =
+                    (LocalContainerEntityManagerFactoryBean) context.getBean("LocalContainerEntityManagerFactoryBean.class");
+            manager = factoryBean.getNativeEntityManagerFactory().createEntityManager();
+            ScheduleDataDao<TSchedule> dao = new ScheduleDataDaoImpl(manager);
+            @SuppressWarnings("deprecation")
+            Timestamp startTimestamp = new Timestamp(scheduleForm.getStartYear(), scheduleForm.getStartMonth(),
+                    scheduleForm.getStartDay(), scheduleForm.getStartOclock(), scheduleForm.getEndMinute(), 0, 0);
+            @SuppressWarnings("deprecation")
+            Timestamp endTimestamp = new Timestamp(scheduleForm.getEndYear(), scheduleForm.getEndMonth(),
+                    scheduleForm.getEndDay(), scheduleForm.getEndOclock(), scheduleForm.getEndMinute(), 0, 0);
+
             return "schedulingIsOk";
         } else if (request.getParameter("return") != null) {
             return "calendar";
@@ -103,6 +162,12 @@ public class IndexController {
         return "calendar";
     }
 
+    /**
+     * ログインページを表示させるコントローラー
+     * @param model
+     * @param loginForm
+     * @return "index"
+     */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model, @ModelAttribute("loginForm") LoginForm loginForm) {
         return "index";

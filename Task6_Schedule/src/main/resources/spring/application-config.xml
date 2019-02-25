@@ -25,7 +25,9 @@ http://www.springframework.org/schema/context/spring-context.xsd">
 			value="jp.co.wintechservice.webScheduler.model" />
 		<property name="jpaVendorAdapter">
 			<bean
-				class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+				class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" >
+				<property name="generateDdl" value="true"></property>
+			</bean>
 		</property>
 		<property name="jpaProperties">
 			<props>

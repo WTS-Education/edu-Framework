@@ -70,10 +70,12 @@
 			<c:forEach var="week" items="${calendarDayDividedBy5or6weeks}">
 				<tr align="right" valign="top">
 					<c:forEach var="day" items="${week}">
-					<c:set var="selectedDay" scope="session" value="${day}"></c:set>
-						<td class="dayOfOtherMonth">
+<%-- 					<c:set var="selectedDay" scope="session" value="${day}"></c:set> --%>
+						<td class="dayOfMonth">
 							<span class="btn">
-							<input type="image" src="<c:url value='/static/images/scadd.gif'/>" alt="スケジュール登録">
+							<button type="submit" name="selectedDay" value="${day}" class="schedule_btn">
+								<img alt="スケジュール登録" src="<c:url value='/static/images/scadd.gif'/>">
+							</button>
 							</span>
 							<c:out value="${day}" />
 						</td>

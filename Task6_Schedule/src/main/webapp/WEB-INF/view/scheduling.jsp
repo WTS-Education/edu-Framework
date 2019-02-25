@@ -16,7 +16,7 @@
 	type="text/css" rel="stylesheet" />
 </head>
 <body>
-	<f:form name="scheduling" method="post" action="schedulingIsOk">
+	<f:form name="scheduling" method="post" action="schedulingIsOk" modelAttribute="scheduleForm">
 	<div align="center">
 		<table border="1" class="calender_config_title">
 		<tr>
@@ -43,7 +43,7 @@
 			<colgroup span="1" class="tableContent"></colgroup>
 			<tr>
 				<th class="heading">名前</th>
-				<td class="content">小針隼一郎(テスト)</td>
+				<td class="content"><c:out value = "${userName}"/></td>
 			</tr>
 
 			<tr>
@@ -87,30 +87,16 @@
 				</select>
 				<select name="oclock">
 						<option value="未設定">未設定</option>
-						<option value="0">0</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-						<option value="6">6</option>
-						<option value="7">7</option>
-						<option value="8">8</option>
-						<option value="9" selected="selected">9</option>
-						<option value="10">10</option>
-						<option value="11">11</option>
-						<option value="12">12</option>
-						<option value="13">13</option>
-						<option value="14">14</option>
-						<option value="15">15</option>
-						<option value="16">16</option>
-						<option value="17">17</option>
-						<option value="18">18</option>
-						<option value="19">19</option>
-						<option value="20">20</option>
-						<option value="21">21</option>
-						<option value="22">22</option>
-						<option value="23">23</option>
+						<c:forEach var="time" begin="0" end="23">
+							<c:choose>
+								<c:when test="${time == 9}">
+									<option value="${time}" selected><c:out value = "${time}"/></option>
+								</c:when>
+								<c:otherwise>
+										<option value="${time}"><c:out value = "${time}"/></option>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
 				</select> 時
 				<select name="minute">
 						<option value="未設定">未設定</option>
@@ -150,64 +136,28 @@
 				</c:forEach>
 				</select>
 				<select name="day">
-						<option value="1">1日</option>
-						<option value="2">2日</option>
-						<option value="3">3日</option>
-						<option value="4">4日</option>
-						<option value="5">5日</option>
-						<option value="6">6日</option>
-						<option value="7">7日</option>
-						<option value="8">8日</option>
-						<option value="9">9日</option>
-						<option value="10">10日</option>
-						<option value="11">11日</option>
-						<option value="12">12日</option>
-						<option value="13">13日</option>
-						<option value="14">14日</option>
-						<option value="15">15日</option>
-						<option value="16">16日</option>
-						<option value="17">17日</option>
-						<option value="18">18日</option>
-						<option value="19">19日</option>
-						<option value="20">20日</option>
-						<option value="21">21日</option>
-						<option value="22">22日</option>
-						<option value="23">23日</option>
-						<option value="24">24日</option>
-						<option value="25">25日</option>
-						<option value="26">26日</option>
-						<option value="27">27日</option>
-						<option value="28">28日</option>
-						<option value="29">29日</option>
-						<option value="30">30日</option>
-						<option value="31">31日</option>
+				<c:forEach var="day" begin="1" end="${yearAndMonth[2]}">
+					<c:choose>
+						<c:when test="${day == selectedDay}">
+							<option value="${day}日" selected><c:out value = "${day}"/>日</option>
+						</c:when>
+						<c:otherwise>
+							<option value="${day}日"><c:out value = "${day}"/>日</option>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
 				</select>
 				<select name="oclock">
-						<option value="未設定">未設定</option>
-						<option value="0">0</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-						<option value="6">6</option>
-						<option value="7">7</option>
-						<option value="8">8</option>
-						<option value="9">9</option>
-						<option value="10">10</option>
-						<option value="11">11</option>
-						<option value="12">12</option>
-						<option value="13">13</option>
-						<option value="14">14</option>
-						<option value="15">15</option>
-						<option value="16">16</option>
-						<option value="17">17</option>
-						<option value="18" selected="selected">18</option>
-						<option value="19">19</option>
-						<option value="20">20</option>
-						<option value="21">21</option>
-						<option value="22">22</option>
-						<option value="23">23</option>
+				<c:forEach var="time" begin="0" end="23">
+					<c:choose>
+						<c:when test="${time == 18}">
+							<option value="${time}" selected><c:out value = "${time}"/></option>
+						</c:when>
+						<c:otherwise>
+								<option value="${time}"><c:out value = "${time}"/></option>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
 				</select> 時
 				<select name="minute">
 						<option value="未設定">未設定</option>
@@ -257,7 +207,7 @@
 
 			<tr>
 				<th>登録者</th>
-				<td>小針隼一郎(テスト)</td>
+				<td><c:out value = "${userName}"/></td>
 			</tr>
 
 		</table>

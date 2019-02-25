@@ -27,6 +27,4 @@ public class LoginForm {
         this.password = password;
     }
 
-
-
 }

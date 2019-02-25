@@ -17,7 +17,7 @@ div.btn{
 }
 
 input.thisMonth_btn {
-	BACKGROUND-IMAGE: url(http://localhost:8081/Task6_Schedule/static/images/today_btn_bg.gif);
+	background-image: url(http://localhost:8081/Task6_Schedule/static/images/today_btn_bg.gif);
 	border: solid 0px;
     background-repeat: no-repeat;
     color: #363636;
@@ -29,7 +29,7 @@ input.thisMonth_btn {
 }
 
 input.previous_btn {
-	BACKGROUND-IMAGE: url(http://localhost:8081/Task6_Schedule/static/images/arrow2_l.gif);
+	background-image: url(http://localhost:8081/Task6_Schedule/static/images/arrow2_l.gif);
 	border: solid 0px;
     background-repeat: no-repeat;
     color: #363636;
@@ -41,7 +41,7 @@ input.previous_btn {
 }
 
 input.next_btn {
-	BACKGROUND-IMAGE: url(http://localhost:8081/Task6_Schedule/static/images/arrow2_r.gif);
+	background-image: url(http://localhost:8081/Task6_Schedule/static/images/arrow2_r.gif);
 	border: solid 0px;
     background-repeat: no-repeat;
     color: #363636;
@@ -97,23 +97,7 @@ tr.dayOfTheWeek {
 
 }
 
-td.dayOfThisMonth {
-	margin: 5px 5px 5px 5px !important;
-	padding: 5px 5px 5px 5px !important;
-	height: 45px;
-	border: 1px;
-	border-color: #cccccc;
-	BORDER-TOP-STYLE: SOLID;
-	BORDER-BOTTOM-STYLE: SOLID;
-	BORDER-LEFT-STYLE: SOLID;
-	BORDER-RIGHT-STYLE: SOLID;
-	COLOR: #333333;
-	font-size: 100%;
-	font-weight: bold;
-	white-space:nomal;
-}
-
-td.dayOfOtherMonth {
+td.dayOfMonth {
 	margin: 5px 5px 5px 5px !important;
 	padding: 5px 5px 5px 5px !important;
 	height: 45px;
@@ -127,10 +111,15 @@ td.dayOfOtherMonth {
 	font-size: 100%;
 	font-weight: normal;
 	white-space:nomal;
-
 }
 
 span.btn {
 	float: left;
 }
+
+button.schedule_btn {
+	border: 0;
+	background: transparent;
+}
+
 

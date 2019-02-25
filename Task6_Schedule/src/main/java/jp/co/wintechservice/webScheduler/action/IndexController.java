@@ -143,17 +143,28 @@ public class IndexController {
     @RequestMapping(value = "/schedulingIsOk", method = RequestMethod.POST)
     public String schedulingIsOk(Model model, HttpServletRequest request, @ModelAttribute("scheduleForm")ScheduleForm scheduleForm) {
         if (request.getParameter("plan") != null) {
-            context = new ClassPathXmlApplicationContext("classpath:/application-config.xml");
+            //DAOオブジェクトを取得
+            context = new ClassPathXmlApplicationContext("spring/application-config.xml");
             LocalContainerEntityManagerFactoryBean factoryBean =
                     (LocalContainerEntityManagerFactoryBean) context.getBean("LocalContainerEntityManagerFactoryBean.class");
             manager = factoryBean.getNativeEntityManagerFactory().createEntityManager();
             ScheduleDataDao<TSchedule> dao = new ScheduleDataDaoImpl(manager);
+
+            //TScheduleエンティティインスタンス作成
             @SuppressWarnings("deprecation")
             Timestamp startTimestamp = new Timestamp(scheduleForm.getStartYear(), scheduleForm.getStartMonth(),
                     scheduleForm.getStartDay(), scheduleForm.getStartOclock(), scheduleForm.getEndMinute(), 0, 0);
             @SuppressWarnings("deprecation")
             Timestamp endTimestamp = new Timestamp(scheduleForm.getEndYear(), scheduleForm.getEndMonth(),
                     scheduleForm.getEndDay(), scheduleForm.getEndOclock(), scheduleForm.getEndMinute(), 0, 0);
+            Timestamp todayTimestamp = new Timestamp(System.currentTimeMillis());
+            HttpSession session = request.getSession();
+            int userId = (Integer) session.getAttribute("userId");
+            TSchedule tSchedule = new TSchedule(userId, startTimestamp, endTimestamp, scheduleForm.getTitle(),
+                    scheduleForm.getDescription(), scheduleForm.getNote(), "0", userId, todayTimestamp, "0");
+
+            //スケジュール登録実行
+            dao.addEntity(tSchedule);
 
             return "schedulingIsOk";
         } else if (request.getParameter("return") != null) {

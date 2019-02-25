@@ -74,7 +74,22 @@ public class TSchedule implements Serializable {
 	@Column(name="update_user", nullable=true)
 	private Integer updateUser;
 
+	public TSchedule(int insertUser, Timestamp start_timestamp, Timestamp end_timestamp, String title,
+	        String description, String note, String deleteFlg, int editAuthority, Timestamp insertDate, String releaseFlg) {
+	    insertUser = this.insertUser;
+	    start_timestamp = this.startTimestamp;
+	    end_timestamp = this.endTimestamp;
+	    title = this.title;
+	    description = this.description;
+	    note = this.note;
+	    deleteFlg = this.deleteFlg;
+	    editAuthority = this.editAuthority;
+	    insertDate = this.insertDate;
+	    releaseFlg = this.releaseFlg;
+	}
+
 	public TSchedule() {
+
 	}
 
 	/**

@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 
+<%@page import="java.util.Calendar"%>
+<%@page import="jp.co.wintechservice.webScheduler.model.TSchedule"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -87,8 +89,19 @@
 				<select name="startDay">
 				<c:forEach var="day" begin="1" end="${yearAndMonth[2]}">
 					<c:choose>
-						<c:when test="${day == selectedDay}">
+						<c:when test="${selectedDay != null && day == selectedDay}">
 							<option value="${day}" selected><c:out value = "${day}"/>日</option>
+						</c:when>
+						<%
+								HttpSession session2 = request.getSession();
+								TSchedule tSchedule = (TSchedule)session2.getAttribute("schedule");
+								Calendar calendar = Calendar.getInstance();
+								calendar.setTimeInMillis(tSchedule.getStartTimestamp().getTime());
+								int startDay = calendar.get(Calendar.DATE);
+						%>
+						<c:set var="startDay" value="<%= startDay %>" />
+						<c:when test="${updateAndDelete != null && day == startDay}">
+							<option value="${day}" selected><c:out value = "${day}"/></option>
 						</c:when>
 						<c:otherwise>
 							<option value="${day}"><c:out value = "${day}"/>日</option>
@@ -160,6 +173,9 @@
 						<c:when test="${day == selectedDay}">
 							<option value="${day}" selected><c:out value = "${day}"/>日</option>
 						</c:when>
+						<c:when test="${updateAndDelete != null && day == endTime[2]}">
+							<option value="${day}" selected><c:out value = "${day}"/></option>
+						</c:when>
 						<c:otherwise>
 							<option value="${day}"><c:out value = "${day}"/>日</option>
 						</c:otherwise>
@@ -171,6 +187,9 @@
 				<c:forEach var="time" begin="0" end="23">
 					<c:choose>
 						<c:when test="${time == 18}">
+							<option value="${time}" selected><c:out value = "${time}"/></option>
+						</c:when>
+						<c:when test="${updateAndDelete != null && time == endTime[3]}">
 							<option value="${time}" selected><c:out value = "${time}"/></option>
 						</c:when>
 						<c:otherwise>
@@ -195,7 +214,7 @@
 				<td>
 					<c:choose>
 						<c:when test="${updateAndDelete != null}">
-							<input type="text" name="title" value="${scheduleContents[0]}" maxlength="300" class="title_textbox">
+							<input type="text" name="title" value="${schedule.getTitle()}" maxlength="300" class="title_textbox">
 						</c:when>
 						<c:otherwise>
 							<input type="text" name="title" maxlength="300" class="title_textbox">
@@ -225,21 +244,13 @@
 
 			<tr>
 				<th>内容</th>
-				<td><textarea name="content" rows="10" cols="50" maxlength="1000">
-							<c:if test="${updateAndDelete != null}">
-								<c:out value="${scheduleContents[1]}"></c:out>
-							</c:if>
-					</textarea><br>
+				<td><textarea name="description" rows="10" cols="50" maxlength="1000"><c:if test="${updateAndDelete != null}"><c:out value="${schedule.getDescription()}"></c:out></c:if></textarea><br>
 					MAX1000文字</td>
 			</tr>
 
 			<tr>
 				<th>備考</th>
-				<td><textarea name="note" rows="5" cols="50" maxlength="1000">
-							<c:if test="${updateAndDelete != null}">
-								<c:out value="${scheduleContents[2]}"></c:out>
-							</c:if>
-					</textarea><br>
+				<td><textarea name="note" rows="5" cols="50" maxlength="1000"><c:if test="${updateAndDelete != null}"><c:out value="${schedule.getNote()}"></c:out></c:if></textarea><br>
 					MAX1000文字</td>
 			</tr>
 

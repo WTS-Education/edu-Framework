@@ -3,6 +3,7 @@ package jp.co.wintechservice.webScheduler.action;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
@@ -150,8 +151,8 @@ public class IndexController {
      */
     @RequestMapping(value = "/schedulingIsOk", method = RequestMethod.POST)
     public String schedulingIsOk(Model model, HttpServletRequest request, @ModelAttribute("scheduleForm")ScheduleForm scheduleForm) {
-        if (request.getParameter("plan") != null) {
-            HttpSession session = request.getSession();
+        HttpSession session = request.getSession();
+        if (request.getParameter("plan") != null || request.getParameter("update") != null) {
             /*
              * TScheduleエンティティインスタンス作成
              * startTimestamp, endTimestamp, title, description, note,
@@ -159,13 +160,20 @@ public class IndexController {
              */
             TSchedule tSchedule = new TSchedule();
 
-            //登録者セット
+            //登録者、登録日時・更新者、更新日時セット
             int userId = (Integer) session.getAttribute("userId");
-            tSchedule.setInsertUser(userId);
-
-            //登録日時セット
             Timestamp todayTimestamp = new Timestamp(System.currentTimeMillis());
-            tSchedule.setInsertDate(todayTimestamp);
+            if (request.getParameter("plan") != null) {
+                tSchedule.setInsertUser(userId);
+                tSchedule.setInsertDate(todayTimestamp);
+            } else if (request.getParameter("update") != null) {
+                tSchedule.setUpdateUser(userId);
+                tSchedule.setUpdateDate(todayTimestamp);
+                TSchedule schedule = (TSchedule) session.getAttribute("schedule");
+                tSchedule.setScheduleId(schedule.getScheduleId());
+                tSchedule.setInsertUser(schedule.getInsertUser());
+                tSchedule.setInsertDate(schedule.getInsertDate());
+            }
 
             //開始日時セット
             Calendar startCal = Calendar.getInstance();
@@ -195,17 +203,44 @@ public class IndexController {
             tscheRep.saveAndFlush(tSchedule);
 
             session.setAttribute("updateAndDelete", null);
+            session.setAttribute("selectedDay", null);
 
             return "schedulingIsOk";
+        } else if (request.getParameter("delete") != null) {
+            session.setAttribute("updateAndDelete", null);
+            session.setAttribute("selectedDay", null);
+            return "delete_check";
         } else if (request.getParameter("return") != null) {
-            HttpSession session = request.getSession();
             List<TSchedule> scheuleList = tscheRep.findAll();
             session.setAttribute("scheduleList", scheuleList);
             session.setAttribute("updateAndDelete", null);
+            session.setAttribute("selectedDay", null);
+            session.setAttribute("startDay", null);
             return "calendar";
         }
         return "calendar";
     }
+
+    /**
+     * 削除クリック→削除確認ページ
+     * @param model
+     * @param request
+     * @return "deletingIsOk"
+     * @return "scheduling"
+     */
+    @RequestMapping(value = "/deletingIsOk", method = RequestMethod.POST)
+    public String deletingIsOk(Model model, HttpServletRequest request) {
+        if (request.getParameter("yes") != null) {
+            HttpSession session = request.getSession();
+            TSchedule schedule = (TSchedule) session.getAttribute("schedule");
+            tscheRep.delete(schedule);
+            return "deletingIsOk";
+        } else if (request.getParameter("no") != null) {
+            return "scheduling";
+        }
+        return "deletingIsOk";
+    }
+
 
     /**
      * ログインページを表示させるコントローラー
@@ -218,13 +253,23 @@ public class IndexController {
         return "index";
     }
 
+    /**
+     *  カレンダーの予定リンク→更新削除ページ
+     * @param model
+     * @param request
+     * @return "scheduling"
+     */
     @RequestMapping(value = "/scheduling", method = RequestMethod.GET)
     public String updateAndDelete(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
+        int scheduleId = Integer.parseInt(request.getParameter("id"));
+        Optional<TSchedule> scheduleOfThisDay = tscheRep.findById(scheduleId);
+        if (scheduleOfThisDay.isPresent()) {
+            TSchedule schedule = scheduleOfThisDay.get();
+            session.setAttribute("schedule", schedule);
+        }
         session.setAttribute("updateAndDelete", "updateAndDelete");
         return "scheduling";
     }
-
-
 
 }

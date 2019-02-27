@@ -88,15 +88,16 @@
 								    int startTime[] = {calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE),
 								            calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE)};
 								    session.setAttribute("startTime", startTime);
+								    calendar.setTimeInMillis(tSchedule.getEndTimestamp().getTime());
+								    int endTime[] = {calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE),
+								            calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE)};
+								    session.setAttribute("endTime", endTime);
 							%>
 								<c:choose>
 									<c:when test="${yearAndMonth[0] == startTime[0] && yearAndMonth[1] == startTime[1] && day == startTime[2]}">
-										<a href="<c:url value="scheduling"/>">
+										<a href="scheduling?id=<%= tSchedule.getScheduleId() %>">
 											<%= tSchedule.getTitle() %>
 										</a>
-										<% String scheduleContents[] = {tSchedule.getTitle(), tSchedule.getDescription(), tSchedule.getNote()};
-											session.setAttribute("scheduleContents", scheduleContents);
-										%>
 									</c:when>
 								</c:choose>
 							<% 	} %>

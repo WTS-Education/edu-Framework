@@ -4,17 +4,17 @@ public class ScheduleForm {
 
     private String User;
 
-    private int startYear;
-    private int startMonth;
-    private int startDay;
-    private int startOclock;
-    private int startMinute;
+    private String startYear;
+    private String startMonth;
+    private String startDay;
+    private String startOclock;
+    private String startMinute;
 
-    private int endYear;
-    private int endMonth;
-    private int endDay;
-    private int endOclock;
-    private int endMinute;
+    private String endYear;
+    private String endMonth;
+    private String endDay;
+    private String endOclock;
+    private String endMinute;
 
     private String title;
 
@@ -33,83 +33,83 @@ public class ScheduleForm {
         User = user;
     }
 
-    public int getStartYear() {
+    public String getStartYear() {
         return startYear;
     }
 
-    public void setStartYear(int startYear) {
+    public void setStartYear(String startYear) {
         this.startYear = startYear;
     }
 
-    public int getStartMonth() {
+    public String getStartMonth() {
         return startMonth;
     }
 
-    public void setStartMonth(int startMonth) {
+    public void setStartMonth(String startMonth) {
         this.startMonth = startMonth;
     }
 
-    public int getStartDay() {
+    public String getStartDay() {
         return startDay;
     }
 
-    public void setStartDay(int startDay) {
+    public void setStartDay(String startDay) {
         this.startDay = startDay;
     }
 
-    public int getStartOclock() {
+    public String getStartOclock() {
         return startOclock;
     }
 
-    public void setStartOclock(int startOclock) {
+    public void setStartOclock(String startOclock) {
         this.startOclock = startOclock;
     }
 
-    public int getStartMinute() {
+    public String getStartMinute() {
         return startMinute;
     }
 
-    public void setStartMinute(int startMinute) {
+    public void setStartMinute(String startMinute) {
         this.startMinute = startMinute;
     }
 
-    public int getEndYear() {
+    public String getEndYear() {
         return endYear;
     }
 
-    public void setEndYear(int endYear) {
+    public void setEndYear(String endYear) {
         this.endYear = endYear;
     }
 
-    public int getEndMonth() {
+    public String getEndMonth() {
         return endMonth;
     }
 
-    public void setEndMonth(int endMonth) {
+    public void setEndMonth(String endMonth) {
         this.endMonth = endMonth;
     }
 
-    public int getEndDay() {
+    public String getEndDay() {
         return endDay;
     }
 
-    public void setEndDay(int endDay) {
+    public void setEndDay(String endDay) {
         this.endDay = endDay;
     }
 
-    public int getEndOclock() {
+    public String getEndOclock() {
         return endOclock;
     }
 
-    public void setEndOclock(int endOclock) {
+    public void setEndOclock(String endOclock) {
         this.endOclock = endOclock;
     }
 
-    public int getEndMinute() {
+    public String getEndMinute() {
         return endMinute;
     }
 
-    public void setEndMinute(int endMinute) {
+    public void setEndMinute(String endMinute) {
         this.endMinute = endMinute;
     }
 

@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 
+<%@page import="java.sql.Timestamp"%>
+<%@page import="jp.co.wintechservice.webScheduler.model.TSchedule"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Calendar"%>
@@ -70,14 +72,34 @@
 			<c:forEach var="week" items="${calendarDayDividedBy5or6weeks}">
 				<tr align="right" valign="top">
 					<c:forEach var="day" items="${week}">
-<%-- 					<c:set var="selectedDay" scope="session" value="${day}"></c:set> --%>
 						<td class="dayOfMonth">
 							<span class="btn">
 							<button type="submit" name="selectedDay" value="${day}" class="schedule_btn">
 								<img alt="スケジュール登録" src="<c:url value='/static/images/scadd.gif'/>">
 							</button>
 							</span>
-							<c:out value="${day}" />
+							<c:out value="${day}" /><br><br>
+							<!-- 登録済みのスケジュール表示 -->
+							<%
+								List<TSchedule> scheduleList =(List<TSchedule>)session.getAttribute("scheduleList");
+								Calendar calendar = Calendar.getInstance();
+								for(TSchedule tSchedule : scheduleList){
+								    calendar.setTimeInMillis(tSchedule.getStartTimestamp().getTime());
+								    int startTime[] = {calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE),
+								            calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE)};
+								    session.setAttribute("startTime", startTime);
+							%>
+								<c:choose>
+									<c:when test="${yearAndMonth[0] == startTime[0] && yearAndMonth[1] == startTime[1] && day == startTime[2]}">
+										<a href="<c:url value="scheduling"/>">
+											<%= tSchedule.getTitle() %>
+										</a>
+										<% String scheduleContents[] = {tSchedule.getTitle(), tSchedule.getDescription(), tSchedule.getNote()};
+											session.setAttribute("scheduleContents", scheduleContents);
+										%>
+									</c:when>
+								</c:choose>
+							<% 	} %>
 						</td>
 					</c:forEach>
 				</tr>

@@ -30,8 +30,16 @@
 		<tr>
 		<td>
 			<div class="btn">
-				<input type="submit" value="登録" name="plan" class="config_btn">
-					 <input type="submit" value="戻る" name="return" class="return_btn">
+			<c:choose>
+				<c:when test="${updateAndDelete != null}">
+					<input type="submit" value="変更" name="update" class="update_btn">
+					<input type="submit" value="削除" name="delete" class="delete_btn">
+				</c:when>
+				<c:otherwise>
+					<input type="submit" value="登録" name="plan" class="config_btn">
+				</c:otherwise>
+			</c:choose>
+					<input type="submit" value="戻る" name="return" class="return_btn">
 			</div>
 		</td>
 		</tr>
@@ -49,47 +57,54 @@
 			<tr>
 				<th class="key">開始</th>
 				<td class="value">
-				<select name="year">
+				<!-- 開始年 -->
+				<select name="startYear">
 				<c:forEach var="year" begin="2018" end="2022">
 					<c:choose>
 						<c:when test="${year == yearAndMonth[0]}">
-							<option value="${year}年" selected><c:out value = "${year}"/>年</option>
+							<option value="${year}" selected><c:out value = "${year}"/>年</option>
 						</c:when>
 						<c:otherwise>
-							<option value="${year}年"><c:out value = "${year}"/>年</option>
+							<option value="${year}"><c:out value = "${year}"/>年</option>
 						</c:otherwise>
 					</c:choose>
 				</c:forEach>
 				</select>
-				<select name="month">
+				<!-- 開始月 -->
+				<select name="startMonth">
 				<c:forEach var="month" begin="1" end="12">
 					<c:choose>
 						<c:when test="${month == yearAndMonth[1] + 1}">
-							<option value="${month}月" selected><c:out value = "${month}"/>月</option>
+							<option value="${month}" selected><c:out value = "${month}"/>月</option>
 						</c:when>
 						<c:otherwise>
-							<option value="${month}月"><c:out value = "${month}"/>月</option>
+							<option value="${month}"><c:out value = "${month}"/>月</option>
 						</c:otherwise>
 					</c:choose>
 				</c:forEach>
 				</select>
-				<select name="day">
+				<!-- 開始日 -->
+				<select name="startDay">
 				<c:forEach var="day" begin="1" end="${yearAndMonth[2]}">
 					<c:choose>
 						<c:when test="${day == selectedDay}">
-							<option value="${day}日" selected><c:out value = "${day}"/>日</option>
+							<option value="${day}" selected><c:out value = "${day}"/>日</option>
 						</c:when>
 						<c:otherwise>
-							<option value="${day}日"><c:out value = "${day}"/>日</option>
+							<option value="${day}"><c:out value = "${day}"/>日</option>
 						</c:otherwise>
 					</c:choose>
 				</c:forEach>
 				</select>
-				<select name="oclock">
+				<!-- 開始時 -->
+				<select name="startOclock">
 						<option value="未設定">未設定</option>
 						<c:forEach var="time" begin="0" end="23">
 							<c:choose>
 								<c:when test="${time == 9}">
+									<option value="${time}" selected><c:out value = "${time}"/></option>
+								</c:when>
+								<c:when test="${updateAndDelete != null && time == startTime[3]}">
 									<option value="${time}" selected><c:out value = "${time}"/></option>
 								</c:when>
 								<c:otherwise>
@@ -98,7 +113,8 @@
 							</c:choose>
 						</c:forEach>
 				</select> 時
-				<select name="minute">
+				<!-- 開始分 -->
+				<select name="startMinute">
 						<option value="未設定">未設定</option>
 						<option value="00" selected="selected">00</option>
 						<option value="15">15</option>
@@ -111,43 +127,47 @@
 			<tr>
 				<th>終了</th>
 				<td>
-				<select name="year">
+				<!-- 終了年 -->
+				<select name="endYear">
 				<c:forEach var="year" begin="2018" end="2022">
 					<c:choose>
 						<c:when test="${year == yearAndMonth[0]}">
-							<option value="${year}年" selected><c:out value = "${year}"/>年</option>
+							<option value="${year}" selected><c:out value = "${year}"/>年</option>
 						</c:when>
 						<c:otherwise>
-							<option value="${year}年"><c:out value = "${year}"/>年</option>
+							<option value="${year}"><c:out value = "${year}"/>年</option>
 						</c:otherwise>
 					</c:choose>
 				</c:forEach>
 				</select>
-				<select name="month">
+				<!-- 終了月 -->
+				<select name="endMonth">
 				<c:forEach var="month" begin="1" end="12">
 					<c:choose>
 						<c:when test="${month == yearAndMonth[1] + 1}">
-							<option value="${month}月" selected><c:out value = "${month}"/>月</option>
+							<option value="${month}" selected><c:out value = "${month}"/>月</option>
 						</c:when>
 						<c:otherwise>
-							<option value="${month}月"><c:out value = "${month}"/>月</option>
+							<option value="${month}"><c:out value = "${month}"/>月</option>
 						</c:otherwise>
 					</c:choose>
 				</c:forEach>
 				</select>
-				<select name="day">
+				<!-- 終了日 -->
+				<select name="endDay">
 				<c:forEach var="day" begin="1" end="${yearAndMonth[2]}">
 					<c:choose>
 						<c:when test="${day == selectedDay}">
-							<option value="${day}日" selected><c:out value = "${day}"/>日</option>
+							<option value="${day}" selected><c:out value = "${day}"/>日</option>
 						</c:when>
 						<c:otherwise>
-							<option value="${day}日"><c:out value = "${day}"/>日</option>
+							<option value="${day}"><c:out value = "${day}"/>日</option>
 						</c:otherwise>
 					</c:choose>
 				</c:forEach>
 				</select>
-				<select name="oclock">
+				<!-- 終了時 -->
+				<select name="endOclock">
 				<c:forEach var="time" begin="0" end="23">
 					<c:choose>
 						<c:when test="${time == 18}">
@@ -159,7 +179,8 @@
 					</c:choose>
 				</c:forEach>
 				</select> 時
-				<select name="minute">
+				<!-- 終了分 -->
+				<select name="endMinute">
 						<option value="未設定">未設定</option>
 						<option value="00" selected="selected">00</option>
 						<option value="15">15</option>
@@ -171,7 +192,16 @@
 
 			<tr>
 				<th>タイトル</th>
-				<td><input type="text" name="title" maxlength="300" class="title_textbox"></td>
+				<td>
+					<c:choose>
+						<c:when test="${updateAndDelete != null}">
+							<input type="text" name="title" value="${scheduleContents[0]}" maxlength="300" class="title_textbox">
+						</c:when>
+						<c:otherwise>
+							<input type="text" name="title" maxlength="300" class="title_textbox">
+						</c:otherwise>
+					</c:choose>
+				</td>
 			</tr>
 
 			<tr>
@@ -195,13 +225,21 @@
 
 			<tr>
 				<th>内容</th>
-				<td><textarea name="content" rows="10" cols="50" maxlength="1000"></textarea><br>
+				<td><textarea name="content" rows="10" cols="50" maxlength="1000">
+							<c:if test="${updateAndDelete != null}">
+								<c:out value="${scheduleContents[1]}"></c:out>
+							</c:if>
+					</textarea><br>
 					MAX1000文字</td>
 			</tr>
 
 			<tr>
 				<th>備考</th>
-				<td><textarea name="note" rows="5" cols="50" maxlength="1000"></textarea><br>
+				<td><textarea name="note" rows="5" cols="50" maxlength="1000">
+							<c:if test="${updateAndDelete != null}">
+								<c:out value="${scheduleContents[2]}"></c:out>
+							</c:if>
+					</textarea><br>
 					MAX1000文字</td>
 			</tr>
 

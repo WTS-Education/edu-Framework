@@ -21,12 +21,19 @@ http://www.springframework.org/schema/context/spring-context.xsd">
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="packagesToScan" value="jp.co.wintechservice.webCalculator.model" />
+		<property name="packagesToScan"
+			value="jp.co.wintechservice.webScheduler.model" />
 		<property name="jpaVendorAdapter">
 			<bean
-				class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" >
-				<property name="generateDdl" value="true"></property>
-			</bean>
+				class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+		</property>
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.hbm2ddl.auto">none</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect
+				</prop>
+			</props>
 		</property>
 	</bean>
 
@@ -40,6 +47,7 @@ http://www.springframework.org/schema/context/spring-context.xsd">
 		<property name="removeAbandoned" value="true" />
 		<property name="initialSize" value="3" />
 		<property name="maxActive" value="30" />
+		<property name="validationQuery" value="select now()" />
 	</bean>
 
 	<context:property-placeholder

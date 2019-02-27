@@ -24,8 +24,8 @@ public class TSchedule implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@SequenceGenerator(name="seq",sequenceName="schedule_id_seq")
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq")
+	@SequenceGenerator(name="seq",sequenceName="schedule_id_seq", allocationSize=1)
 	@Column(name="schedule_id", nullable=false)
 	private Integer scheduleId;
 

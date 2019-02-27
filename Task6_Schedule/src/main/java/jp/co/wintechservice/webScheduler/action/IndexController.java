@@ -1,6 +1,7 @@
 package jp.co.wintechservice.webScheduler.action;
 
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -9,8 +10,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,12 +19,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jp.co.wintechservice.webScheduler.calendar_day.CalendarDay;
-import jp.co.wintechservice.webScheduler.dao.ScheduleDataDao;
-import jp.co.wintechservice.webScheduler.dao.ScheduleDataDaoImpl;
 import jp.co.wintechservice.webScheduler.form.LoginForm;
 import jp.co.wintechservice.webScheduler.form.ScheduleForm;
 import jp.co.wintechservice.webScheduler.model.MUser;
 import jp.co.wintechservice.webScheduler.model.TSchedule;
+import jp.co.wintechservice.webScheduler.repository.TscheduleRepository;
 import jp.co.wintechservice.webScheduler.repository.UserRepository;
 
 /**
@@ -37,6 +35,8 @@ public class IndexController {
 
     @Autowired
     private UserRepository userRep;
+    @Autowired
+    private TscheduleRepository tscheRep;
 
     private ApplicationContext context;
 
@@ -67,6 +67,8 @@ public class IndexController {
                 String userName = mUser.getUserName();
                 session.setAttribute("userName", userName);
                 calendarDay.setCalender(session);
+                List<TSchedule> scheuleList = tscheRep.findAll();
+                session.setAttribute("scheduleList", scheuleList);
                 return "calendar";
             }
         }
@@ -87,6 +89,8 @@ public class IndexController {
         HttpSession session = request.getSession();
         session.setAttribute("previous", "previous");
         calendarDay.setCalender(session);
+        List<TSchedule> scheuleList = tscheRep.findAll();
+        session.setAttribute("scheduleList", scheuleList);
         return "calendar";
     }
 
@@ -101,6 +105,8 @@ public class IndexController {
         HttpSession session = request.getSession();
         session.setAttribute("yearAndMonth", null);
         calendarDay.setCalender(session);
+        List<TSchedule> scheuleList = tscheRep.findAll();
+        session.setAttribute("scheduleList", scheuleList);
         return "calendar";
     }
 
@@ -115,6 +121,8 @@ public class IndexController {
         HttpSession session = request.getSession();
         session.setAttribute("next", "next");
         calendarDay.setCalender(session);
+        List<TSchedule> scheduleList = tscheRep.findAll();
+        session.setAttribute("scheduleList", scheduleList);
         return "calendar";
     }
 
@@ -143,31 +151,57 @@ public class IndexController {
     @RequestMapping(value = "/schedulingIsOk", method = RequestMethod.POST)
     public String schedulingIsOk(Model model, HttpServletRequest request, @ModelAttribute("scheduleForm")ScheduleForm scheduleForm) {
         if (request.getParameter("plan") != null) {
-            //DAOオブジェクトを取得
-            context = new ClassPathXmlApplicationContext("spring/application-config.xml");
-            LocalContainerEntityManagerFactoryBean factoryBean =
-                    (LocalContainerEntityManagerFactoryBean) context.getBean("LocalContainerEntityManagerFactoryBean.class");
-            manager = factoryBean.getNativeEntityManagerFactory().createEntityManager();
-            ScheduleDataDao<TSchedule> dao = new ScheduleDataDaoImpl(manager);
-
-            //TScheduleエンティティインスタンス作成
-            @SuppressWarnings("deprecation")
-            Timestamp startTimestamp = new Timestamp(scheduleForm.getStartYear(), scheduleForm.getStartMonth(),
-                    scheduleForm.getStartDay(), scheduleForm.getStartOclock(), scheduleForm.getEndMinute(), 0, 0);
-            @SuppressWarnings("deprecation")
-            Timestamp endTimestamp = new Timestamp(scheduleForm.getEndYear(), scheduleForm.getEndMonth(),
-                    scheduleForm.getEndDay(), scheduleForm.getEndOclock(), scheduleForm.getEndMinute(), 0, 0);
-            Timestamp todayTimestamp = new Timestamp(System.currentTimeMillis());
             HttpSession session = request.getSession();
-            int userId = (Integer) session.getAttribute("userId");
-            TSchedule tSchedule = new TSchedule(userId, startTimestamp, endTimestamp, scheduleForm.getTitle(),
-                    scheduleForm.getDescription(), scheduleForm.getNote(), "0", userId, todayTimestamp, "0");
+            /*
+             * TScheduleエンティティインスタンス作成
+             * startTimestamp, endTimestamp, title, description, note,
+             * editAuthority, releaseFlg, insertDate, insertUser, deleteFlg
+             */
+            TSchedule tSchedule = new TSchedule();
 
-            //スケジュール登録実行
-            dao.addEntity(tSchedule);
+            //登録者セット
+            int userId = (Integer) session.getAttribute("userId");
+            tSchedule.setInsertUser(userId);
+
+            //登録日時セット
+            Timestamp todayTimestamp = new Timestamp(System.currentTimeMillis());
+            tSchedule.setInsertDate(todayTimestamp);
+
+            //開始日時セット
+            Calendar startCal = Calendar.getInstance();
+            startCal.set(Integer.parseInt(scheduleForm.getStartYear()), Integer.parseInt(scheduleForm.getStartMonth()) - 1,
+                    Integer.parseInt(scheduleForm.getStartDay()), Integer.parseInt(scheduleForm.getStartOclock()),
+                    Integer.parseInt(scheduleForm.getStartMinute()));
+            Timestamp startTimestamp = new Timestamp(startCal.getTimeInMillis());
+            tSchedule.setStartTimestamp(startTimestamp);
+
+            //終了日時セット
+            Calendar endCal = Calendar.getInstance();
+            endCal.set(Integer.parseInt(scheduleForm.getEndYear()), Integer.parseInt(scheduleForm.getEndMonth()) - 1,
+                    Integer.parseInt(scheduleForm.getEndDay()), Integer.parseInt(scheduleForm.getEndOclock()),
+                    Integer.parseInt(scheduleForm.getEndMinute()));
+            Timestamp endTimestamp = new Timestamp(endCal.getTimeInMillis());
+            tSchedule.setEndTimestamp(endTimestamp);
+
+            //タイトル、内容、備考、編集権限、公開範囲、削除フラグセット
+            tSchedule.setTitle(scheduleForm.getTitle());
+            tSchedule.setDescription(scheduleForm.getDescription());
+            tSchedule.setNote(scheduleForm.getNote());
+            tSchedule.setEditAuthority(userId);
+            tSchedule.setReleaseFlg("0");
+            tSchedule.setDeleteFlg("0");
+
+            //スケジュール登録
+            tscheRep.saveAndFlush(tSchedule);
+
+            session.setAttribute("updateAndDelete", null);
 
             return "schedulingIsOk";
         } else if (request.getParameter("return") != null) {
+            HttpSession session = request.getSession();
+            List<TSchedule> scheuleList = tscheRep.findAll();
+            session.setAttribute("scheduleList", scheuleList);
+            session.setAttribute("updateAndDelete", null);
             return "calendar";
         }
         return "calendar";
@@ -183,4 +217,14 @@ public class IndexController {
     public String index(Model model, @ModelAttribute("loginForm") LoginForm loginForm) {
         return "index";
     }
+
+    @RequestMapping(value = "/scheduling", method = RequestMethod.GET)
+    public String updateAndDelete(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.setAttribute("updateAndDelete", "updateAndDelete");
+        return "scheduling";
+    }
+
+
+
 }

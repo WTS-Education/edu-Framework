@@ -46,6 +46,28 @@ div.btn{
 	text-align: right;
 }
 
+input.update_btn {
+	border: solid 1px;
+	BACKGROUND-IMAGE: url(http://localhost:8081/Task6_Schedule/static/images/btn_edit.gif);
+	color: #000066;
+    font-size: 14px!important;
+    height: 25px;
+    width: 100px;
+    padding-left: 15px;
+    cursor: pointer;
+}
+
+input.delete_btn {
+	border: solid 1px;
+	BACKGROUND-IMAGE: url(http://localhost:8081/Task6_Schedule/static/images/btn_dell2.gif);
+	color: #000066;
+    font-size: 14px!important;
+    height: 25px;
+    width: 100px;
+    padding-left: 15px;
+    cursor: pointer;
+}
+
 input.config_btn {
 	border: solid 1px;
 	BACKGROUND-IMAGE: url(http://localhost:8081/Task6_Schedule/static/images/btn_add.gif);
@@ -60,14 +82,12 @@ input.config_btn {
 input.return_btn {
 	border: solid 1px;
 	BACKGROUND-IMAGE: url(http://localhost:8081/Task6_Schedule/static/images/btn_ok1.gif);
-	font-size: 14px;
 	height: 25px;
 	padding-left: 15px;
 	color: #000066;
     font-size: 14px!important;
     height: 25px;
     width: 100px;
-    padding-left: 15px;
     cursor: pointer;
 }
 

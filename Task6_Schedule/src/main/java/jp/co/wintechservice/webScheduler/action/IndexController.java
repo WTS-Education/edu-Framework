@@ -272,8 +272,11 @@ public class IndexController {
             TSchedule schedule = scheduleOfThisDay.get();
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(schedule.getStartTimestamp().getTime());
-            int[] scheduleDay = {calendar.get(Calendar.DATE), calendar.get(Calendar.HOUR), calendar.get(Calendar.MINUTE)};
-            session.setAttribute("scheduleDay", scheduleDay);
+            int[] startTime = {calendar.get(Calendar.DATE), calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE)};
+            calendar.setTimeInMillis(schedule.getEndTimestamp().getTime());
+            int[] endingTime = {calendar.get(Calendar.DATE), calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE)};
+            session.setAttribute("startTime", startTime);
+            session.setAttribute("endingTime", endingTime);
             session.setAttribute("schedule", schedule);
             session.setAttribute("titleColor", schedule.getTitleColor());
         }

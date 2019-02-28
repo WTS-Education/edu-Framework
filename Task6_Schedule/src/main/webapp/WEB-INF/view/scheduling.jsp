@@ -92,7 +92,7 @@
 						<c:when test="${selectedDay != null && day == selectedDay}">
 							<option value="${day}" selected><c:out value = "${day}"/>日</option>
 						</c:when>
-						<c:when test="${updateAndDelete != null && day == scheduleDay[0]}">
+						<c:when test="${updateAndDelete != null && day == startTime[0]}">
 							<option value="${day}" selected><c:out value = "${day}"/>日</option>
 						</c:when>
 					</c:choose>
@@ -106,7 +106,7 @@
 								<c:when test="${selectedDay != null && time == 9}">
 									<option value="${time}" selected><c:out value = "${time}"/></option>
 								</c:when>
-								<c:when test="${updateAndDelete != null && time == scheduleDay[1]}">
+								<c:when test="${updateAndDelete != null && time == startTime[1]}">
 									<option value="${time}" selected><c:out value = "${time}"/></option>
 								</c:when>
 								<c:otherwise>
@@ -123,12 +123,12 @@
 							<c:when test="${selectedDay != null}">
 								<option value="${minute}" selected>00</option>
 							</c:when>
-							<c:when test="${updateAndDelete != null && scheduleDay[2] == 0}">
+							<c:when test="${updateAndDelete != null && startTime[2] == 0}">
 								<option value="0">00</option>
 							</c:when>
 					</c:choose>
 					<c:choose>
-							<c:when test="${updateAndDelete != null && minute == scheduleDay[2]}">
+							<c:when test="${updateAndDelete != null && minute == startTime[2]}">
 								<c:choose>
 									<c:when test="${minute == 0}">
 										<option value="${minute}" selected>00</option>
@@ -189,7 +189,7 @@
 						<c:when test="${day == selectedDay}">
 							<option value="${day}" selected><c:out value = "${day}"/>日</option>
 						</c:when>
-						<c:when test="${updateAndDelete != null && day == scheduleDay[0]}">
+						<c:when test="${updateAndDelete != null && day == endingTime[0]}">
 							<option value="${day}" selected><c:out value = "${day}"/>日</option>
 						</c:when>
 						<c:otherwise>
@@ -200,29 +200,57 @@
 				</select>
 				<!-- 終了時 -->
 				<select name="endOclock" class="timeSelectBox">
-				<c:forEach var="time" begin="0" end="23">
-					<c:choose>
-						<c:when test="${time == 18}">
-							<option value="${time}" selected><c:out value = "${time}"/></option>
-						</c:when>
-						<c:when test="${updateAndDelete != null && time == endTime[3]}">
-							<option value="${time}" selected><c:out value = "${time}"/></option>
-						</c:when>
-						<c:otherwise>
-								<option value="${time}"><c:out value = "${time}"/></option>
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
+						<option value="未設定">未設定</option>
+						<c:forEach var="time" begin="0" end="23">
+							<c:choose>
+								<c:when test="${selectedDay != null && time == 18}">
+									<option value="${time}" selected><c:out value = "${time}"/></option>
+								</c:when>
+								<c:when test="${updateAndDelete != null && time == endingTime[1]}">
+									<option value="${time}" selected><c:out value = "${time}"/></option>
+								</c:when>
+								<c:otherwise>
+										<option value="${time}"><c:out value = "${time}"/></option>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
 				</select> 時
 				<!-- 終了分 -->
 				<select name="endMinute">
 						<option value="未設定">未設定</option>
-						<option value="00" selected="selected">00</option>
-						<option value="15">15</option>
-						<option value="30">30</option>
-						<option value="45">45</option>
-				</select> 分<span style="float: right">期間:一日間</span>
-				</td>
+					<c:forEach var="minute" begin="0" end="45" step="15">
+					<c:choose>
+							<c:when test="${selectedDay != null}">
+								<option value="${minute}" selected>00</option>
+							</c:when>
+							<c:when test="${updateAndDelete != null && endingTime[2] == 0}">
+								<option value="0">00</option>
+							</c:when>
+					</c:choose>
+					<c:choose>
+							<c:when test="${updateAndDelete != null && minute == endingTime[2]}">
+								<c:choose>
+									<c:when test="${minute == 0}">
+										<option value="${minute}" selected>00</option>
+									</c:when>
+									<c:otherwise>
+										<option value="${minute}" selected><c:out value="${minute}"/></option>
+									</c:otherwise>
+								</c:choose>
+							</c:when>
+							<c:otherwise>
+							<c:choose>
+								<c:when test="${minute == 0}">
+									<option value="${minute}" selected>00</option>
+								</c:when>
+								<c:otherwise>
+									<option value="${minute}"><c:out value="${minute}"/></option>
+								</c:otherwise>
+							</c:choose>
+							</c:otherwise>
+					</c:choose>
+					</c:forEach>
+				</select> 分
 			</tr>
 
 			<tr>

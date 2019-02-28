@@ -122,4 +122,33 @@ button.schedule_btn {
 	background: transparent;
 }
 
+div.link {
+	text-align: left;
+}
+
+a.blueLink {
+	color: #0000FF;
+	text-decoration:none;
+}
+a.redLink {
+	color: #FF0000;
+	text-decoration:none;
+}
+a.greenLink {
+	color: #009900;
+	text-decoration:none;
+}
+a.orangeLink {
+	color: #ff9900;
+	text-decoration:none;
+}
+a.blackLink {
+	color: #333333;
+	text-decoration:none;
+}
+
+a:hover {
+	color: #FF0000;
+}
+
 

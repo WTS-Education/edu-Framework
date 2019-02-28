@@ -121,6 +121,10 @@ span.radio_05{
     padding: 2px 2px 1px 1px;
 }
 
+select.timeSelectBox {
+	width: 40px;
+}
+
 label.title_color_text{
     color: #333333;
     font-size: 85%;

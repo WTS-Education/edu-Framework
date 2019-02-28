@@ -92,32 +92,21 @@
 						<c:when test="${selectedDay != null && day == selectedDay}">
 							<option value="${day}" selected><c:out value = "${day}"/>日</option>
 						</c:when>
-						<%
-								HttpSession session2 = request.getSession();
-								TSchedule tSchedule = (TSchedule)session2.getAttribute("schedule");
-								Calendar calendar = Calendar.getInstance();
-								calendar.setTimeInMillis(tSchedule.getStartTimestamp().getTime());
-								int startDay = calendar.get(Calendar.DATE);
-						%>
-						<c:set var="startDay" value="<%= startDay %>" />
-						<c:when test="${updateAndDelete != null && day == startDay}">
-							<option value="${day}" selected><c:out value = "${day}"/></option>
+						<c:when test="${updateAndDelete != null && day == scheduleDay[0]}">
+							<option value="${day}" selected><c:out value = "${day}"/>日</option>
 						</c:when>
-						<c:otherwise>
-							<option value="${day}"><c:out value = "${day}"/>日</option>
-						</c:otherwise>
 					</c:choose>
 				</c:forEach>
 				</select>
 				<!-- 開始時 -->
-				<select name="startOclock">
+				<select name="startOclock" class="timeSelectBox">
 						<option value="未設定">未設定</option>
 						<c:forEach var="time" begin="0" end="23">
 							<c:choose>
-								<c:when test="${time == 9}">
+								<c:when test="${selectedDay != null && time == 9}">
 									<option value="${time}" selected><c:out value = "${time}"/></option>
 								</c:when>
-								<c:when test="${updateAndDelete != null && time == startTime[3]}">
+								<c:when test="${updateAndDelete != null && time == scheduleDay[1]}">
 									<option value="${time}" selected><c:out value = "${time}"/></option>
 								</c:when>
 								<c:otherwise>
@@ -129,12 +118,39 @@
 				<!-- 開始分 -->
 				<select name="startMinute">
 						<option value="未設定">未設定</option>
-						<option value="00" selected="selected">00</option>
-						<option value="15">15</option>
-						<option value="30">30</option>
-						<option value="45">45</option>
+					<c:forEach var="minute" begin="0" end="45" step="15">
+					<c:choose>
+							<c:when test="${selectedDay != null}">
+								<option value="${minute}" selected>00</option>
+							</c:when>
+							<c:when test="${updateAndDelete != null && scheduleDay[2] == 0}">
+								<option value="0">00</option>
+							</c:when>
+					</c:choose>
+					<c:choose>
+							<c:when test="${updateAndDelete != null && minute == scheduleDay[2]}">
+								<c:choose>
+									<c:when test="${minute == 0}">
+										<option value="${minute}" selected>00</option>
+									</c:when>
+									<c:otherwise>
+										<option value="${minute}" selected><c:out value="${minute}"/></option>
+									</c:otherwise>
+								</c:choose>
+							</c:when>
+							<c:otherwise>
+							<c:choose>
+								<c:when test="${minute == 0}">
+									<option value="${minute}" selected>00</option>
+								</c:when>
+								<c:otherwise>
+									<option value="${minute}"><c:out value="${minute}"/></option>
+								</c:otherwise>
+							</c:choose>
+							</c:otherwise>
+					</c:choose>
+					</c:forEach>
 				</select> 分
-				<input type="checkbox" name="assignTime">時間指定無し</td>
 			</tr>
 
 			<tr>
@@ -173,8 +189,8 @@
 						<c:when test="${day == selectedDay}">
 							<option value="${day}" selected><c:out value = "${day}"/>日</option>
 						</c:when>
-						<c:when test="${updateAndDelete != null && day == endTime[2]}">
-							<option value="${day}" selected><c:out value = "${day}"/></option>
+						<c:when test="${updateAndDelete != null && day == scheduleDay[0]}">
+							<option value="${day}" selected><c:out value = "${day}"/>日</option>
 						</c:when>
 						<c:otherwise>
 							<option value="${day}"><c:out value = "${day}"/>日</option>
@@ -183,7 +199,7 @@
 				</c:forEach>
 				</select>
 				<!-- 終了時 -->
-				<select name="endOclock">
+				<select name="endOclock" class="timeSelectBox">
 				<c:forEach var="time" begin="0" end="23">
 					<c:choose>
 						<c:when test="${time == 18}">
@@ -205,7 +221,7 @@
 						<option value="15">15</option>
 						<option value="30">30</option>
 						<option value="45">45</option>
-				</select> 分 期間:一日間
+				</select> 分<span style="float: right">期間:一日間</span>
 				</td>
 			</tr>
 
@@ -225,21 +241,68 @@
 
 			<tr>
 				<th>タイトル色</th>
-				<td><span class="radio_01"> <input type="radio"
-						name="title_color" checked="checked" id="title_color_01">
-				</span> <label for="title_color_01" class="title_color_text">訪問</label> <span
-					class="radio_02"> <input type="radio" name="title_color"
-						id="title_color_02">
-				</span> <label for="title_color_02" class="title_color_text">勤怠</label> <span
-					class="radio_03"> <input type="radio" name="title_color"
-						id="title_color_03">
-				</span> <label for="title_color_03" class="title_color_text">来客</label> <span
-					class="radio_04"> <input type="radio" name="title_color"
-						id="title_color_04">
-				</span> <label for="title_color_04" class="title_color_text">面談・面接</label>
-					<span class="radio_05"> <input type="radio"
-						name="title_color" id="title_color_05">
-				</span> <label for="title_color_05" class="title_color_text">私用</label></td>
+				<td>
+					<c:choose>
+						<c:when test="${titleColor == 0}">
+							<span class="radio_01"> <input type="radio"
+										name="titleColor" checked="checked" value="0">
+							</span> <label for="titleColor_01" class="titleColor_text">訪問</label>
+						</c:when>
+						<c:otherwise>
+							<span class="radio_01"> <input type="radio"
+										name="titleColor"  value="0">
+							</span> <label for="titleColor_01" class="titleColor_text">訪問</label>
+						</c:otherwise>
+					</c:choose>
+					<c:choose>
+						<c:when test="${titleColor == 1}">
+							<span class="radio_02"> <input type="radio"
+										name="titleColor" checked="checked" value="1">
+							</span> <label for="titleColor_02" class="titleColor_text">勤怠</label>
+						</c:when>
+						<c:otherwise>
+							<span class="radio_02"> <input type="radio"
+										name="titleColor"  value="1">
+							</span> <label for="titleColor_02" class="titleColor_text">勤怠</label>
+						</c:otherwise>
+					</c:choose>
+					<c:choose>
+						<c:when test="${titleColor == 2}">
+							<span class="radio_03"> <input type="radio"
+										name="titleColor" checked="checked" value="2">
+							</span> <label for="titleColor_03" class="titleColor_text">来客</label>
+						</c:when>
+						<c:otherwise>
+							<span class="radio_03"> <input type="radio"
+										name="titleColor"  value="2">
+							</span> <label for="titleColor_03" class="titleColor_text">来客</label>
+						</c:otherwise>
+					</c:choose>
+					<c:choose>
+						<c:when test="${titleColor == 3}">
+							<span class="radio_04"> <input type="radio"
+										name="titleColor" checked="checked" value="3">
+							</span> <label for="titleColor_04" class="titleColor_text">面談・面接</label>
+						</c:when>
+						<c:otherwise>
+							<span class="radio_04"> <input type="radio"
+										name="titleColor"  value="3">
+							</span> <label for="titleColor_04" class="titleColor_text">面談・面接</label>
+						</c:otherwise>
+					</c:choose>
+					<c:choose>
+						<c:when test="${titleColor == 4}">
+							<span class="radio_05"> <input type="radio"
+										name="titleColor" checked="checked" value="4">
+							</span> <label for="titleColor_05" class="titleColor_text">私用</label>
+						</c:when>
+						<c:otherwise>
+							<span class="radio_05"> <input type="radio"
+										name="titleColor"  value="4">
+							</span> <label for="titleColor_05" class="titleColor_text">私用</label>
+						</c:otherwise>
+					</c:choose>
+				</td>
 			</tr>
 
 			<tr>

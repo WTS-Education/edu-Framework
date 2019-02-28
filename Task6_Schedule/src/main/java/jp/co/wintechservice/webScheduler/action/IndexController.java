@@ -74,6 +74,9 @@ public class IndexController {
             }
         }
         if (request.getParameter("ok") != null) {
+            HttpSession session = request.getSession();
+            List<TSchedule> scheuleList = tscheRep.findAll();
+            session.setAttribute("scheduleList", scheuleList);
             return "calendar";
         }
         return "index";
@@ -191,8 +194,9 @@ public class IndexController {
             Timestamp endTimestamp = new Timestamp(endCal.getTimeInMillis());
             tSchedule.setEndTimestamp(endTimestamp);
 
-            //タイトル、内容、備考、編集権限、公開範囲、削除フラグセット
+            //タイトル、タイトル色、内容、備考、編集権限、公開範囲、削除フラグセット
             tSchedule.setTitle(scheduleForm.getTitle());
+            tSchedule.setTitleColor(Integer.parseInt(scheduleForm.getTitleColor()));
             tSchedule.setDescription(scheduleForm.getDescription());
             tSchedule.setNote(scheduleForm.getNote());
             tSchedule.setEditAuthority(userId);
@@ -266,7 +270,12 @@ public class IndexController {
         Optional<TSchedule> scheduleOfThisDay = tscheRep.findById(scheduleId);
         if (scheduleOfThisDay.isPresent()) {
             TSchedule schedule = scheduleOfThisDay.get();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(schedule.getStartTimestamp().getTime());
+            int[] scheduleDay = {calendar.get(Calendar.DATE), calendar.get(Calendar.HOUR), calendar.get(Calendar.MINUTE)};
+            session.setAttribute("scheduleDay", scheduleDay);
             session.setAttribute("schedule", schedule);
+            session.setAttribute("titleColor", schedule.getTitleColor());
         }
         session.setAttribute("updateAndDelete", "updateAndDelete");
         return "scheduling";

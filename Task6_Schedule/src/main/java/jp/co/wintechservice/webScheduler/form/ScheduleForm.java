@@ -18,6 +18,8 @@ public class ScheduleForm {
 
     private String title;
 
+    private String titleColor;
+
     private String description;
 
     private String note;
@@ -119,6 +121,14 @@ public class ScheduleForm {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getTitleColor() {
+        return titleColor;
+    }
+
+    public void setTitleColor(String titleColor) {
+        this.titleColor = titleColor;
     }
 
     public String getDescription() {

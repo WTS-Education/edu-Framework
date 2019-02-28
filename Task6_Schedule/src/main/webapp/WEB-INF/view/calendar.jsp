@@ -84,20 +84,64 @@
 								List<TSchedule> scheduleList =(List<TSchedule>)session.getAttribute("scheduleList");
 								Calendar calendar = Calendar.getInstance();
 								for(TSchedule tSchedule : scheduleList){
+								    String[] minute = new String[2];
 								    calendar.setTimeInMillis(tSchedule.getStartTimestamp().getTime());
 								    int startTime[] = {calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE),
 								            calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE)};
+									if(calendar.get(Calendar.MINUTE) == 0){minute[0] = "00";}else{minute[0] = String.valueOf(calendar.get(Calendar.MINUTE));};
 								    session.setAttribute("startTime", startTime);
 								    calendar.setTimeInMillis(tSchedule.getEndTimestamp().getTime());
 								    int endTime[] = {calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE),
 								            calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE)};
+								    if(calendar.get(Calendar.MINUTE) == 0){minute[1] = "00";}else{minute[1] = String.valueOf(calendar.get(Calendar.MINUTE));}
 								    session.setAttribute("endTime", endTime);
+								    session.setAttribute("minute", minute);
+								    session.setAttribute("titleColor", tSchedule.getTitleColor());
 							%>
 								<c:choose>
 									<c:when test="${yearAndMonth[0] == startTime[0] && yearAndMonth[1] == startTime[1] && day == startTime[2]}">
-										<a href="scheduling?id=<%= tSchedule.getScheduleId() %>">
-											<%= tSchedule.getTitle() %>
-										</a>
+									<c:choose>
+										<c:when test="${titleColor == 0}">
+										<div class="link">
+											<a href="scheduling?id=<%= tSchedule.getScheduleId() %>" class="blueLink">
+													<c:out value="${startTime[3]}:${minute[0]}-${endTime[3]}:${minute[1]}"/><br>
+												<%= tSchedule.getTitle() %>
+											</a>
+										</div>
+										</c:when>
+										<c:when test="${titleColor == 1}">
+										<div class="link">
+											<a href="scheduling?id=<%= tSchedule.getScheduleId() %>" class="redLink">
+													<c:out value="${startTime[3]}:${minute[0]}-${endTime[3]}:${minute[1]}"/><br>
+												<%= tSchedule.getTitle() %>
+											</a>
+										</div>
+										</c:when>
+										<c:when test="${titleColor == 2}">
+										<div class="link">
+											<a href="scheduling?id=<%= tSchedule.getScheduleId() %>" class="greenLink">
+													<c:out value="${startTime[3]}:${minute[0]}-${endTime[3]}:${minute[1]}"/><br>
+												<%= tSchedule.getTitle() %>
+											</a>
+										</div>
+										</c:when>
+										<c:when test="${titleColor == 3}">
+										<div class="link">
+											<a href="scheduling?id=<%= tSchedule.getScheduleId() %>" class="orangeLink">
+													<c:out value="${startTime[3]}:${minute[0]}-${endTime[3]}:${minute[1]}"/><br>
+												<%= tSchedule.getTitle() %>
+											</a>
+										</div>
+										</c:when>
+										<c:when test="${titleColor == 4}">
+										<div class="link">
+											<a href="scheduling?id=<%= tSchedule.getScheduleId() %>">
+													<c:out value="${startTime[3]}:${minute[0]}-${endTime[3]}:${minute[1]}"/><br>
+												<%= tSchedule.getTitle() %>
+											</a>
+										</div>
+										</c:when>
+									</c:choose>
 									</c:when>
 								</c:choose>
 							<% 	} %>
